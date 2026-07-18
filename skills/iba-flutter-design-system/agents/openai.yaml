@@ -1,0 +1,4 @@
+interface:
+  display_name: "IBA Flutter Design System"
+  short_description: "Build compliant IBA E-Wallet Flutter UI"
+  default_prompt: "Use $iba-flutter-design-system to implement this IBA E-Wallet Flutter UI change with repository tokens, shared components, localization, RTL, accessibility, privacy, and tests."
