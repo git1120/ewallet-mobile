@@ -24,6 +24,20 @@ invalid dummy login returned `401`, nested `error.code: UNAUTHORIZED`,
 `meta.traceId`, and a matching `X-Trace-Id`. No real credential, repeated
 attempt, session mutation, or financial endpoint was used.
 
+## Flutter Web development transport
+
+The deployed development API does not allow the generated Flutter localhost
+origin, so a direct Chrome request fails CORS before reaching authentication.
+For development only, `web_dev_config.yaml` binds Flutter to
+`http://127.0.0.1:8080` and forwards the single `/api/` prefix to
+`http://74.118.81.141/`. With no path replacement,
+`/api/v1/auth/login` reaches the identical backend path while preserving the
+request method, headers, and body. Native targets keep the direct host.
+
+This changes neither the backend contract nor production browser support.
+Staging and production require explicit HTTPS API origins and cannot select the
+relative proxy base.
+
 ## Shared envelopes, headers, and transport
 
 Success is JSON:
@@ -178,6 +192,12 @@ security-settings slice must treat its own session as terminated after success.
 - Tokens are JSON body values, not cookies. CORS is enabled without an inspected
   production origin policy and CSRF is disabled for the stateless bearer API.
   This is insufficient evidence for production browser authentication.
+
+Flutter 3.38.3 development-proxy source falls through to Flutter asset handling
+when the backend returns 404, does not retain query strings while constructing
+the proxied URI, and is bypassed by its Wasm/release development asset-server
+path. Authentication endpoints used here have no query string and the supported
+smoke run uses the default JavaScript debug mode.
 
 ## Postman discrepancies
 

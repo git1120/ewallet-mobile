@@ -25,14 +25,14 @@ final class ApiClient {
            dio ??
            Dio(
              BaseOptions(
-               baseUrl: config.apiBaseUrl.toString(),
+               baseUrl: config.dioBaseUrl,
                connectTimeout: config.connectTimeout,
                receiveTimeout: config.receiveTimeout,
                headers: const {'Accept': 'application/json'},
              ),
            ) {
     this.dio.options
-      ..baseUrl = config.apiBaseUrl.toString()
+      ..baseUrl = config.dioBaseUrl
       ..connectTimeout = config.connectTimeout
       ..receiveTimeout = config.receiveTimeout
       ..headers.putIfAbsent('Accept', () => 'application/json');

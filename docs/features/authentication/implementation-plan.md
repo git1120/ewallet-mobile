@@ -89,8 +89,9 @@ linguistic review.
 is honest; EN/FA/PS, RTL, 200%, keyboard, accessibility, and session failure
 evidence is recorded; status register updated.
 
-**Status:** Chrome development launch and the unauthenticated mobile/PIN
-interaction were smoke-tested on 19 July 2026. The deployed API rejected the
-browser preflight because the localhost origin was not allowed, so Chrome
-live-login/error-envelope validation remains blocked by backend CORS
-configuration. No production-web readiness is claimed.
+**Status:** the original direct Chrome smoke reached the deployed API CORS
+boundary. The repository now resolves web development to same-origin
+`/api/v1/...` requests and delegates that prefix to Flutter 3.38.3's root
+development proxy; Android remains direct and secure production validation is
+unchanged. Live proxy/Chrome evidence is recorded in the test plan. No
+production-web readiness is claimed.

@@ -16,6 +16,13 @@ temporary behavior is accepted; this task accepted the recorded safe temporary
 behaviors. Product visual/language review remains open, so the composite
 reference is `in-progress`, not validated.
 
+Chrome development uses the Flutter 3.38 root development-server proxy.
+Browser requests remain same-origin at `/api/v1/...`; only `/api/` is forwarded
+to the deployed development backend. Android continues to use the direct
+development URL. This local transport arrangement does not approve production
+browser authentication or change the token-storage limitations in the security
+contract.
+
 ## Authority
 
 Evidence was inspected on 19 July 2026 in this priority order:

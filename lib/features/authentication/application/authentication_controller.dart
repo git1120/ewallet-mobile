@@ -92,7 +92,10 @@ final class AuthenticationController extends ChangeNotifier {
   }
 
   void cancelLoginAttempt() {
-    if (!_state.isSubmitting) return;
+    if (!_state.isSubmitting ||
+        _state.session != SessionStatus.unauthenticated) {
+      return;
+    }
     ++_operationGeneration;
     _loginCancellation?.cancel();
     _emit(

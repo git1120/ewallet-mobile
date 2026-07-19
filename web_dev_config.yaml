@@ -1,0 +1,9 @@
+server:
+  host: "127.0.0.1"
+  port: 8080
+  headers:
+    - name: "Cache-Control"
+      value: "no-cache, no-store, must-revalidate"
+  proxy:
+    - target: "http://74.118.81.141/"
+      prefix: "/api/"

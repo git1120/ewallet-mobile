@@ -94,6 +94,12 @@ until it is implemented and runtime-verified.
 > Flutter Web remains a development and visual-validation target unless a
 > production browser authentication architecture is explicitly approved.
 
+Local Chrome development uses a loopback same-origin proxy restricted to
+`/api/`, with no-cache development responses. It avoids the deployed API's CORS
+origin mismatch without modifying the backend or browser security. The proxy is
+not bundled into `build/web`; native API traffic remains direct, and staging or
+production cannot resolve to the relative proxy base.
+
 Browser storage is not equivalent to Android Keystore or iOS Keychain. The
 inspected backend uses JSON bearer/refresh tokens, stateless security, disabled
 CSRF, and no authentication cookies. Production browser auth requires a

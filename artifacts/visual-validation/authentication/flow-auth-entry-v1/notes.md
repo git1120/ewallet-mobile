@@ -5,12 +5,18 @@
 - Implemented: third phone (mobile) and fourth phone (six-digit PIN)
 - Target viewports: 360×800 and 412×915 logical portrait
 - Automated: EN/LTR, FA/RTL, PS/RTL, 100%/200% text, reduced motion
-- Chrome runtime: mobile/PIN flow and safe offline state rendered on Chrome
-  150 without a Flutter runtime exception
+- Chrome runtime: the same-origin proxy removed the CORS rejection; an
+  authorized login reached the confirmed protected placeholder in Chrome 150
+- Runtime issue corrected: login-page disposal could cancel an already
+  unconfirmed session and notify the router while its tree was locked; the
+  controller now ignores cancellation after leaving unauthenticated state
+- Hot reload: passed; authenticated placeholder rendered after reload
+- Logout: backend 200 through the proxy before the smoke browser closed
 - Matching-viewport screenshot: pending (the runtime capture included docked
   browser developer tools and is not an acceptance artifact)
-- Live browser request: blocked by the deployed API CORS preflight for the
-  generated `localhost` origin; no backend login result is claimed
+- Invalid-login UI capture: pending; the single dummy transport request
+  returned nested `UNAUTHORIZED` with matching header/body trace ID, while the
+  localized widget state remains covered by automated tests
 
 ## Recorded differences
 

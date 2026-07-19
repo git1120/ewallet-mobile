@@ -56,6 +56,11 @@ For UI work, also read `docs/design-system.md`,
   user-facing text. Use directional APIs instead of physical left/right layout.
 - Never log secrets or sensitive financial/customer data. Store secrets only
   through `SecureStore`, never shared preferences.
+- Flutter Web development uses the repository same-origin development proxy
+  for backend API access. Never bypass CORS by disabling browser security,
+  adding unsafe Chrome flags, or weakening production URL validation. Native
+  development uses its direct configured backend; proxy behavior must not leak
+  into native, staging, or production configuration.
 - Authentication UI implementation may not begin until its backend contract,
   Visual Reference Contract, state machine, security contract, and contract
   gaps are documented.

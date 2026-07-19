@@ -16,8 +16,13 @@ depend on features. Authentication, signup, home, accounts, beneficiaries,
 transfers, top-up, transactions, profile, security, and walk-in boundaries are
 created when their first real behavior is implemented—never as empty files.
 
-Environment values are compile-time defines. Production performs fail-fast URL
-validation and never registers the component-gallery route.
+Environment values are compile-time defines. Development API resolution is
+centralized: native targets default to the direct development host, while
+Flutter Web defaults to a relative same-origin base consumed by the root
+development-server proxy. Staging and production require an explicit remote
+HTTPS URL; neither can select relative proxy addressing. Production performs
+additional fail-fast URL validation and never registers the component-gallery
+route.
 
 Coding agents must also follow the repository-specific
 [architecture rules](agent-guidelines/architecture-rules.md) and

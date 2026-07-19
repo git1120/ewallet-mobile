@@ -26,6 +26,12 @@ envelopes, pagination defaults, time zones, currencies, or identifier formats.
 Timeout policy distinguishes safe reads from money-moving writes. Capture
 request IDs and idempotency keys; never blindly retry a financial request.
 
+Flutter Web development uses the repository same-origin `/api/` development
+proxy. Endpoint constants remain canonical `/api/v1/...` paths and platform
+resolution stays inside environment configuration. Native development uses the
+direct configured backend URL; staging and production never use the proxy.
+Never work around CORS with browser-security changes or unsafe Chrome flags.
+
 ## Contract-gap record
 
 When UI needs unsupported behavior, document:

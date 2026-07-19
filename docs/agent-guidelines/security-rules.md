@@ -42,6 +42,12 @@ authoritative contract explicitly provides recovery.
 > storage must not be presented as equivalent to Android Keystore or iOS
 > Keychain.
 
+Local Flutter Web API access must use the loopback, same-origin development
+proxy in `web_dev_config.yaml`. Agents must not disable browser security,
+install CORS bypasses, add unsafe Chrome flags, expose the development server
+publicly, or weaken staging/production URL checks. Native development remains
+direct and must never receive a relative API URL.
+
 Production browser authentication needs a separate threat model, strict CSP and
 hosting controls, XSS review, dependency/output escaping review, and preferably
 server-managed `Secure`, `SameSite`, HttpOnly cookies where supported. Do not

@@ -22,12 +22,26 @@ uncertainty terminate the local session.
 
 ## Web limitation
 
+Chrome development uses the repository root `web_dev_config.yaml`: the Flutter
+development server binds to loopback, disables caching through a response
+header, and forwards only `/api/` to the approved development backend. This
+same-origin path avoids the backend CORS mismatch without disabling browser
+security or changing backend policy. Native development does not use the
+proxy. Staging and production reject relative API bases and require an explicit
+remote HTTPS URL.
+
 `flutter_secure_storage` on the web relies on browser capabilities and does not
 provide the hardware-backed guarantees available on supported mobile devices.
 This architecture keeps storage replaceable, but it does not claim production
 browser-token security. A production web authentication model requires a
 separate threat model, CSP and hosting controls, XSS review, and preferably
 server-managed HttpOnly cookies where the backend supports them.
+
+`web_dev_config.yaml` is consumed by `flutter run`; it is not an application
+asset and must not appear in `build/web`. It neither makes production Flutter
+Web authentication supported nor replaces an approved production browser
+authentication architecture. Authentication bodies and credentials remain
+uncached and unlogged.
 
 Feature work must also follow the expanded
 [agent security rules](agent-guidelines/security-rules.md) and, for

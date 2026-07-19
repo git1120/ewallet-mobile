@@ -18,23 +18,37 @@ Tests are required before/during implementation.
 Golden baselines remain deferred. Runtime screenshot comparison and Android
 TalkBack smoke remain manual Phase E evidence.
 
-## Chrome runtime evidence — 19 July 2026
+## Chrome and proxy runtime evidence — 19 July 2026
 
-The development build launched successfully in Chrome 150 with
-`APP_ENV=development` and `API_BASE_URL=http://74.118.81.141`. Mobile entry,
-six-digit PIN entry, automatic guarded submission, and the safe offline error
-state rendered without a Flutter runtime exception. The browser refused the
-login request at CORS preflight because the deployed API response did not
-include `Access-Control-Allow-Origin` for the generated `localhost` origin.
-The request therefore did not reach the login controller, and no live
-credential/error-envelope result is claimed from Chrome.
+Chrome 150 launched with only `APP_ENV=development`; Flutter loaded
+`web_dev_config.yaml` and served `http://127.0.0.1:8080`. A single invalid
+dummy login sent to the same-origin `/api/v1/auth/login` returned backend 401,
+nested `error.code: UNAUTHORIZED`, and the same `X-Trace-Id` in the header and
+`meta.traceId`. Flutter logged the exact forwarded backend path. There was no
+CORS rejection, request/response credential body, mobile number, PIN,
+authorization value, or token in console output.
 
-Console and Flutter-run evidence contained only the method, endpoint path,
-generated trace ID, and the browser CORS error; no mobile number, PIN,
-authorization value, or token appeared. No further invalid login was attempted.
+An explicitly authorized credential smoke reached login 200, device-session
+confirmation 200, and the authenticated placeholder. It exposed a
+route-disposal race: the login page cancelled the controller after it had
+already advanced to `authenticatedUnconfirmed`, causing a router assertion.
+The cancellation guard now acts only while the session is unauthenticated; a
+regression test covers this boundary. Hot reload completed and the protected
+placeholder rendered. The final authorized logout returned 200 before the
+test browser closed.
+
+The backend's public health route is `/actuator/health`, outside the
+deliberately restricted `/api/` proxy prefix. A direct health request returned
+200 `UP`; requesting `/api/actuator/health` through the proxy preserved that
+exact path and returned the backend's non-destructive 401. Expanding the proxy
+to reach actuator would violate the API-only rule, so no proxied health 200 is
+claimed.
+
+The safe invalid request verified the nested envelope and trace propagation at
+the transport boundary, but the localized invalid-credential widget was not
+manually captured. Its automated widget coverage remains the UI evidence.
 Matching-viewport acceptance, runtime FA/PS switching, 200% runtime inspection,
-Android TalkBack, and authenticated runtime flow remain pending; their
-automated widget coverage is listed above.
+and Android TalkBack remain pending.
 
 ## DTO and mapper tests
 

@@ -59,7 +59,10 @@ void main() {
   testWidgets('production has no gallery route', (tester) async {
     await tester.pumpWidget(
       IbaApp(
-        config: EnvironmentConfig.forEnvironment(AppEnvironment.production),
+        config: EnvironmentConfig.forEnvironment(
+          AppEnvironment.production,
+          apiBaseUrl: 'https://api.example.com',
+        ),
         preferences: MemoryPreferences(),
         secureStore: MemorySecureStore(),
       ),

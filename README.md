@@ -17,14 +17,28 @@ deferred.
 ```bash
 flutter --no-version-check pub get
 flutter --no-version-check run -d chrome \
+  --dart-define=APP_ENV=development
+```
+
+For Chrome development, `web_dev_config.yaml` binds the Flutter server to
+`127.0.0.1:8080` and proxies only `/api/` to the development backend. Do not
+supply `API_BASE_URL` for this normal web flow: the app uses same-origin
+`/api/v1/...` requests. This is a development tool, is not copied into
+`build/web`, and does not approve production browser authentication.
+
+Native development continues to call the configured backend directly:
+
+```bash
+flutter --no-version-check run -d android \
   --dart-define=APP_ENV=development \
   --dart-define=API_BASE_URL=http://74.118.81.141
 ```
 
 Development opens customer authentication. The gallery remains available at
 `/gallery` only in development. Supported `APP_ENV` values are `development`,
-`staging`, and `production`. Production rejects localhost, HTTP,
-development/staging labels, and `74.118.81.141`.
+`staging`, and `production`. Staging and production require an explicit HTTPS
+API URL and reject relative proxy addressing, loopback, HTTP, and the deployed
+development address. Production also rejects development/staging host labels.
 
 ```bash
 flutter --no-version-check run -d chrome \
@@ -68,7 +82,9 @@ placeholder, current-session logout, and terminal recovery. Access tokens are
 memory-only; refresh/session material uses `SecureStore`.
 
 Flutter Web remains a development and visual-validation target. Production
-browser authentication is not approved.
+browser authentication is not approved. The local proxy resolves development
+CORS without disabling browser security or changing the backend; it does not
+solve browser token-storage, CSP, XSS, or production hosting requirements.
 
 ## Coding-agent entry points
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'agent_rules_validator.dart';
+import 'web_dev_proxy_validator.dart';
 
 void main(List<String> arguments) {
   var rootPath = Directory.current.path;
@@ -62,15 +63,20 @@ void main(List<String> arguments) {
     root: root,
     allowlist: AgentRuleAllowlist(defaults),
   ).scan();
-  if (violations.isEmpty) {
+  final proxyViolations = WebDevProxyValidator(root).validate();
+  if (violations.isEmpty && proxyViolations.isEmpty) {
     stdout.writeln('Agent rules validator: no violations found.');
     return;
   }
 
   stderr.writeln(
-    'Agent rules validator found ${violations.length} violation(s):',
+    'Agent rules validator found '
+    '${violations.length + proxyViolations.length} violation(s):',
   );
   for (final violation in violations) {
+    stderr.writeln(violation);
+  }
+  for (final violation in proxyViolations) {
     stderr.writeln(violation);
   }
   exitCode = 1;

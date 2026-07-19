@@ -191,6 +191,35 @@ void main() {
     );
 
     test(
+      'route disposal cannot cancel a session already being confirmed',
+      () async {
+        final fixture = build();
+        await fixture.controller.restore();
+        fixture.controller.continueToPin();
+        final confirmation = Completer<bool>();
+        fixture.repository.confirmationCompleter = confirmation;
+
+        final login = fixture.controller.login(
+          mobileNumber: '0700000000',
+          pin: '123456',
+        );
+        while (fixture.controller.state.session !=
+            SessionStatus.authenticatedUnconfirmed) {
+          await Future<void>.delayed(Duration.zero);
+        }
+
+        fixture.controller.cancelLoginAttempt();
+        expect(
+          fixture.controller.state.session,
+          SessionStatus.authenticatedUnconfirmed,
+        );
+        confirmation.complete(true);
+        await login;
+        expect(fixture.controller.state.session, SessionStatus.authenticated);
+      },
+    );
+
+    test(
       'invalid credentials, offline, and restrictions map precisely',
       () async {
         final fixture = build();
@@ -293,6 +322,7 @@ final class FakeAuthenticationRepository implements AuthenticationRepository {
   Object? refreshFailure;
   Object? logoutFailure;
   Completer<AuthenticationSession>? refreshCompleter;
+  Completer<bool>? confirmationCompleter;
   bool confirmationResult = true;
   int loginCalls = 0;
   int refreshCalls = 0;
@@ -303,7 +333,7 @@ final class FakeAuthenticationRepository implements AuthenticationRepository {
   Future<bool> confirmSession({
     required String sessionId,
     CancelToken? cancelToken,
-  }) async => confirmationResult;
+  }) async => confirmationCompleter?.future ?? confirmationResult;
 
   @override
   Future<AuthenticationSession> login({

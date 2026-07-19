@@ -243,9 +243,7 @@ void main() {
       throwsStateError,
     );
     expect(
-      EnvironmentConfig.forEnvironment(
-        AppEnvironment.development,
-      ).apiBaseUrl.toString(),
+      EnvironmentConfig.forEnvironment(AppEnvironment.development).dioBaseUrl,
       'http://74.118.81.141',
     );
   });
