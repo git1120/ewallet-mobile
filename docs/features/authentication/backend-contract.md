@@ -15,7 +15,14 @@ The authoritative implementation is:
 The compared collection is
 `../api/postman/E-Wallet Complete API.postman_collection.json`, sections
 “Customer Authentication” and “Device Sessions & Local Biometric Preference.”
-Source code wins if they differ. No endpoint was called during this analysis.
+Source code wins if they differ.
+
+## Deployed development evidence — 19 July 2026
+
+One safe health request returned `200` with `status: UP`. One intentionally
+invalid dummy login returned `401`, nested `error.code: UNAUTHORIZED`,
+`meta.traceId`, and a matching `X-Trace-Id`. No real credential, repeated
+attempt, session mutation, or financial endpoint was used.
 
 ## Shared envelopes, headers, and transport
 

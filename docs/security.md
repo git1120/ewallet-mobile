@@ -10,9 +10,15 @@ record method, path, status, and request ID—not bodies. New sensitive fields
 must be added to the deny list before integration.
 
 The Dio foundation adds authorization, sanitized diagnostics, cancellation,
-request-ID capture, and typed backend-failure parsing. Refresh concurrency is
-coordinated, while the refresh endpoint is deferred until authentication
-contracts exist. Mutating requests can use UUID v4 idempotency keys.
+`X-Trace-Id` capture, and typed backend-failure parsing. Customer access tokens
+are memory-only. Rotating refresh and sensitive current-session material use
+namespaced `SecureStore` keys. Refresh is single-flight, replaces the old
+credential before releasing waiters, rejects stale generations, and never
+retries an uncertain refresh with the prior token.
+
+Logout attempts one server revocation and always clears local authentication
+material. Refresh reuse, expiry, revocation, restriction, and network
+uncertainty terminate the local session.
 
 ## Web limitation
 

@@ -1,6 +1,7 @@
 # Authentication implementation plan
 
-No phase in this plan is implemented by the current task.
+Phases A–C and safe first-slice regions of Phase D were implemented on
+19 July 2026. Runtime visual comparison and language-owner review remain open.
 
 ## Phase A — Contract models
 
@@ -17,6 +18,8 @@ No phase in this plan is implemented by the current task.
 **Exit:** `AUTH-GAP-01` examples encoded; `AUTH-GAP-14` closed; source/Postman
 discrepancies tested; no backend message reaches UI; analyzer/tests pass.
 
+**Status:** implemented and covered by contract/API tests.
+
 ## Phase B — Session infrastructure
 
 - Introduce a testable in-memory access-token source for `ApiClient`.
@@ -32,6 +35,9 @@ discrepancies tested; no backend message reaches UI; analyzer/tests pass.
 refresh is single-flight/atomic; old token cannot be reused by the client;
 logout always clears local state; security review passes.
 
+**Status:** implemented. Refresh network uncertainty conservatively clears the
+local session.
+
 ## Phase C — Authentication state and navigation
 
 - Add Riverpod repository/controller/providers with separated session, form,
@@ -44,6 +50,8 @@ logout always clears local state; security review passes.
 **Exit:** `AUTH-GAP-12` accepted/closed; all state-machine and router tests pass;
 protected content is never built before confirmation; concurrent terminal
 events collapse to one cleanup/navigation event.
+
+**Status:** implemented with the documented temporary `/auth/devices` probe.
 
 ## Phase D — Approved login UI
 
@@ -61,6 +69,10 @@ events collapse to one cleanup/navigation event.
 **Exit:** every implemented region has an exact reference/viewport and no
 unapproved deviation; language review complete; widget/visual review passes.
 
+**Status:** safe regions implemented. Composite status remains `in-progress`
+pending matching-viewport review, brand-asset mapping, deviation approval, and
+linguistic review.
+
 ## Phase E — Validation
 
 - Run format, rule validation, analyze, all tests, quality gate, and web build.
@@ -76,3 +88,9 @@ unapproved deviation; language review complete; widget/visual review passes.
 **Exit:** static/full build gates pass; Android and Chrome validation evidence
 is honest; EN/FA/PS, RTL, 200%, keyboard, accessibility, and session failure
 evidence is recorded; status register updated.
+
+**Status:** Chrome development launch and the unauthenticated mobile/PIN
+interaction were smoke-tested on 19 July 2026. The deployed API rejected the
+browser preflight because the localhost origin was not allowed, so Chrome
+live-login/error-envelope validation remains blocked by backend CORS
+configuration. No production-web readiness is claimed.

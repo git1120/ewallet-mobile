@@ -1,30 +1,67 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iba_ewallet/app/localization/cupertino_fallback_delegate.dart';
 import 'package:iba_ewallet/app/localization/generated/app_localizations.dart';
 import 'package:iba_ewallet/core/config/environment.dart';
 import 'package:iba_ewallet/core/storage/preferences_store.dart';
+import 'package:iba_ewallet/core/storage/secure_storage.dart';
 import 'package:iba_ewallet/core/theme/iba_theme.dart';
-import 'package:iba_ewallet/design_system/navigation/iba_navigation.dart';
+import 'package:iba_ewallet/features/authentication/application/authentication_controller.dart';
+import 'package:iba_ewallet/features/authentication/application/authentication_providers.dart';
+import 'package:iba_ewallet/features/authentication/domain/authentication_state.dart';
+import 'package:iba_ewallet/features/authentication/presentation/authentication_login_page.dart';
+import 'package:iba_ewallet/features/authentication/presentation/authentication_state_pages.dart';
 import 'package:iba_ewallet/features/component_gallery/component_gallery_page.dart';
 
-class IbaApp extends StatefulWidget {
-  const IbaApp({required this.config, required this.preferences, super.key});
+class IbaApp extends StatelessWidget {
+  const IbaApp({
+    required this.config,
+    required this.preferences,
+    this.secureStore,
+    this.dio,
+    super.key,
+  });
+
+  final EnvironmentConfig config;
+  final PreferencesStore preferences;
+  final SecureStore? secureStore;
+  final Dio? dio;
+
+  @override
+  Widget build(BuildContext context) => ProviderScope(
+    overrides: [
+      environmentProvider.overrideWithValue(config),
+      preferencesProvider.overrideWithValue(preferences),
+      if (secureStore != null)
+        secureStoreProvider.overrideWithValue(secureStore!),
+      if (dio != null) apiDioProvider.overrideWithValue(dio),
+    ],
+    child: _IbaAppView(config: config, preferences: preferences),
+  );
+}
+
+class _IbaAppView extends ConsumerStatefulWidget {
+  const _IbaAppView({required this.config, required this.preferences});
 
   final EnvironmentConfig config;
   final PreferencesStore preferences;
 
   @override
-  State<IbaApp> createState() => _IbaAppState();
+  ConsumerState<_IbaAppView> createState() => _IbaAppViewState();
 }
 
-class _IbaAppState extends State<IbaApp> {
+class _IbaAppViewState extends ConsumerState<_IbaAppView> {
   static const _localeKey = 'preferred_locale';
   static const supportedLocales = [Locale('en'), Locale('fa'), Locale('ps')];
 
   late Locale _locale;
   var _largeText = false;
+  late final AuthenticationController _authentication;
   late final GoRouter _router;
 
   @override
@@ -35,12 +72,30 @@ class _IbaAppState extends State<IbaApp> {
       (locale) => locale.languageCode == saved,
       orElse: () => const Locale('en'),
     );
+    _authentication = ref.read(authenticationControllerProvider);
     _router = GoRouter(
-      initialLocation: widget.config.enableComponentGallery ? '/gallery' : '/',
+      initialLocation: '/',
+      refreshListenable: _authentication,
+      redirect: _redirect,
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => const _FoundationPage(),
+          builder: (context, state) => const AuthenticationBootstrapPage(),
+        ),
+        GoRoute(
+          path: '/login',
+          builder: (context, state) =>
+              AuthenticationLoginPage(controller: _authentication),
+        ),
+        GoRoute(
+          path: '/session-ended',
+          builder: (context, state) =>
+              AuthenticationTerminalPage(controller: _authentication),
+        ),
+        GoRoute(
+          path: '/authenticated',
+          builder: (context, state) =>
+              AuthenticatedPlaceholderPage(controller: _authentication),
         ),
         if (widget.config.enableComponentGallery)
           GoRoute(
@@ -56,6 +111,26 @@ class _IbaAppState extends State<IbaApp> {
           ),
       ],
     );
+    unawaited(Future<void>.microtask(_authentication.restore));
+  }
+
+  String? _redirect(BuildContext context, GoRouterState routerState) {
+    final location = routerState.matchedLocation;
+    if (widget.config.enableComponentGallery && location == '/gallery') {
+      return null;
+    }
+    final state = _authentication.state;
+    if (state.isBootstrapping) return location == '/' ? null : '/';
+    if (state.session == SessionStatus.loggingOut) {
+      return location == '/authenticated' ? null : '/authenticated';
+    }
+    if (state.session == SessionStatus.terminal) {
+      return location == '/session-ended' ? null : '/session-ended';
+    }
+    if (state.isAuthenticated) {
+      return location == '/authenticated' ? null : '/authenticated';
+    }
+    return location == '/login' ? null : '/login';
   }
 
   Future<void> _setLocale(Locale locale) async {
@@ -91,17 +166,4 @@ class _IbaAppState extends State<IbaApp> {
       );
     },
   );
-}
-
-class _FoundationPage extends StatelessWidget {
-  const _FoundationPage();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return IbaPageScaffold(
-      title: l10n.appName,
-      body: Center(child: Text(l10n.foundationReady)),
-    );
-  }
 }

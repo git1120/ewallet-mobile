@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:iba_ewallet/app/localization/cupertino_fallback_delegate.dart';
 import 'package:iba_ewallet/app/localization/generated/app_localizations.dart';
 import 'package:iba_ewallet/core/storage/preferences_store.dart';
+import 'package:iba_ewallet/core/storage/secure_storage.dart';
 import 'package:iba_ewallet/core/theme/iba_theme.dart';
 
 class MemoryPreferences implements PreferencesStore {
@@ -17,10 +18,27 @@ class MemoryPreferences implements PreferencesStore {
   }
 }
 
+class MemorySecureStore implements SecureStore {
+  final values = <String, String>{};
+
+  @override
+  Future<void> clear() async => values.clear();
+
+  @override
+  Future<void> delete(String key) async => values.remove(key);
+
+  @override
+  Future<String?> read(String key) async => values[key];
+
+  @override
+  Future<void> write(String key, String value) async => values[key] = value;
+}
+
 Widget testApp(
   Widget child, {
   Locale locale = const Locale('en'),
   double textScale = 1,
+  bool wrapInScaffold = true,
 }) => MaterialApp(
   locale: locale,
   supportedLocales: const [Locale('en'), Locale('fa'), Locale('ps')],
@@ -37,5 +55,7 @@ Widget testApp(
     ).copyWith(textScaler: TextScaler.linear(textScale)),
     child: appChild!,
   ),
-  home: Scaffold(body: SingleChildScrollView(child: child)),
+  home: wrapInScaffold
+      ? Scaffold(body: SingleChildScrollView(child: child))
+      : child,
 );

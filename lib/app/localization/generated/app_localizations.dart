@@ -411,6 +411,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check your connection and try again.'**
   String get networkError;
+
+  /// No description provided for @validationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the information and try again.'**
+  String get validationError;
+
+  /// No description provided for @serverUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'We cannot sign you in right now. Try again later.'**
+  String get serverUnavailable;
+
+  /// No description provided for @authLoginScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back'**
+  String get authLoginScreenTitle;
+
+  /// No description provided for @authLoginScreenSemanticLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to IBA E-Wallet'**
+  String get authLoginScreenSemanticLabel;
+
+  /// No description provided for @authLoginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login with your mobile number'**
+  String get authLoginSubtitle;
+
+  /// No description provided for @authMobileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get authMobileLabel;
+
+  /// No description provided for @authMobileHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your registered mobile number'**
+  String get authMobileHint;
+
+  /// No description provided for @authMobileRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your mobile number.'**
+  String get authMobileRequired;
+
+  /// No description provided for @authMobileInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid 10-digit mobile number.'**
+  String get authMobileInvalid;
+
+  /// No description provided for @authContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get authContinue;
+
+  /// No description provided for @authPinScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN'**
+  String get authPinScreenTitle;
+
+  /// No description provided for @authPinInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your 6-digit PIN to continue'**
+  String get authPinInstruction;
+
+  /// No description provided for @authPinFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure 6-digit PIN keypad'**
+  String get authPinFieldLabel;
+
+  /// No description provided for @authDeletePinDigit.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete PIN digit'**
+  String get authDeletePinDigit;
+
+  /// No description provided for @authChangeMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Change number'**
+  String get authChangeMobile;
+
+  /// No description provided for @authSigningIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing in…'**
+  String get authSigningIn;
+
+  /// No description provided for @authInvalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'The mobile number or PIN is incorrect. Try again.'**
+  String get authInvalidCredentials;
+
+  /// No description provided for @authAccountTemporarilyLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN temporarily locked'**
+  String get authAccountTemporarilyLockedTitle;
+
+  /// No description provided for @authAccountTemporarilyLockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'For your security, PIN login is temporarily unavailable. Try again later.'**
+  String get authAccountTemporarilyLockedMessage;
+
+  /// No description provided for @authAccountSuspendedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account suspended'**
+  String get authAccountSuspendedTitle;
+
+  /// No description provided for @authAccountSuspendedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot sign in to this account right now.'**
+  String get authAccountSuspendedMessage;
+
+  /// No description provided for @authAccountLockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account restricted'**
+  String get authAccountLockedTitle;
+
+  /// No description provided for @authAccountLockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot sign in to this account right now.'**
+  String get authAccountLockedMessage;
+
+  /// No description provided for @authAccountClosedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account closed'**
+  String get authAccountClosedTitle;
+
+  /// No description provided for @authAccountClosedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This account is closed and cannot be used to sign in.'**
+  String get authAccountClosedMessage;
+
+  /// No description provided for @authSessionExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired'**
+  String get authSessionExpiredTitle;
+
+  /// No description provided for @authSessionExpiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'For your security, sign in again to continue.'**
+  String get authSessionExpiredMessage;
+
+  /// No description provided for @authSessionEndedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session ended'**
+  String get authSessionEndedTitle;
+
+  /// No description provided for @authSessionEndedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to continue.'**
+  String get authSessionEndedMessage;
+
+  /// No description provided for @authLoginAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get authLoginAgain;
+
+  /// No description provided for @authCheckingSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking your secure session…'**
+  String get authCheckingSession;
+
+  /// No description provided for @authOfflineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get authOfflineTitle;
+
+  /// No description provided for @authOfflineMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your connection and try again.'**
+  String get authOfflineMessage;
+
+  /// No description provided for @authServerUnavailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Service unavailable'**
+  String get authServerUnavailableTitle;
+
+  /// No description provided for @authServerUnavailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We cannot sign you in right now. Try again later.'**
+  String get authServerUnavailableMessage;
+
+  /// No description provided for @authRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get authRetry;
+
+  /// No description provided for @authLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get authLogout;
+
+  /// No description provided for @authLoggingOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Logging out…'**
+  String get authLoggingOut;
+
+  /// No description provided for @authPrivacyPinMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Never share your PIN. IBA staff will never ask for it.'**
+  String get authPrivacyPinMessage;
+
+  /// No description provided for @authGenericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Try again.'**
+  String get authGenericError;
+
+  /// No description provided for @authSessionActiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your secure session is active'**
+  String get authSessionActiveTitle;
+
+  /// No description provided for @authSessionActiveMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This temporary destination confirms that protected access is working.'**
+  String get authSessionActiveMessage;
 }
 
 class _AppLocalizationsDelegate

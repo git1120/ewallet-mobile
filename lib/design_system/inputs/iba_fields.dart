@@ -16,6 +16,10 @@ class IbaTextField extends StatelessWidget {
     this.inputFormatters,
     this.maxLength,
     this.onChanged,
+    this.onSubmitted,
+    this.textInputAction,
+    this.textDirection,
+    this.focusNode,
     this.semanticLabel,
     super.key,
   });
@@ -32,6 +36,10 @@ class IbaTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final TextInputAction? textInputAction;
+  final TextDirection? textDirection;
+  final FocusNode? focusNode;
   final String? semanticLabel;
 
   @override
@@ -42,6 +50,7 @@ class IbaTextField extends StatelessWidget {
     enabled: enabled,
     child: TextField(
       controller: controller,
+      focusNode: focusNode,
       readOnly: readOnly,
       enabled: enabled,
       obscureText: obscureText,
@@ -49,6 +58,9 @@ class IbaTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
       maxLength: maxLength,
       onChanged: onChanged,
+      onSubmitted: onSubmitted,
+      textInputAction: textInputAction,
+      textDirection: textDirection,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -66,6 +78,10 @@ class IbaPhoneField extends StatelessWidget {
     this.errorText,
     this.enabled = true,
     this.onChanged,
+    this.onSubmitted,
+    this.textInputAction,
+    this.focusNode,
+    this.maxDigits = 12,
     super.key,
   });
 
@@ -74,6 +90,10 @@ class IbaPhoneField extends StatelessWidget {
   final String? errorText;
   final bool enabled;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final TextInputAction? textInputAction;
+  final FocusNode? focusNode;
+  final int maxDigits;
 
   @override
   Widget build(BuildContext context) => IbaTextField(
@@ -82,19 +102,29 @@ class IbaPhoneField extends StatelessWidget {
     errorText: errorText,
     enabled: enabled,
     keyboardType: TextInputType.phone,
-    inputFormatters: [AfghanPhoneInputFormatter()],
+    inputFormatters: [AfghanPhoneInputFormatter(maxDigits: maxDigits)],
     onChanged: onChanged,
+    onSubmitted: onSubmitted,
+    textInputAction: textInputAction,
+    textDirection: TextDirection.ltr,
+    focusNode: focusNode,
   );
 }
 
 class AfghanPhoneInputFormatter extends TextInputFormatter {
+  AfghanPhoneInputFormatter({this.maxDigits = 12});
+
+  final int maxDigits;
+
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
     final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
-    final limited = digits.length > 12 ? digits.substring(0, 12) : digits;
+    final limited = digits.length > maxDigits
+        ? digits.substring(0, maxDigits)
+        : digits;
     return TextEditingValue(
       text: limited,
       selection: TextSelection.collapsed(offset: limited.length),

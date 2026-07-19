@@ -1,7 +1,40 @@
 # Authentication test plan
 
-Tests are required before/during implementation; none of these feature tests
-exist in the current foundation.
+Tests are required before/during implementation.
+
+## Implemented automated coverage — 19 July 2026
+
+- `test/authentication_contract_test.dart`: DTO/envelope/trace/failure,
+  production URL rejection, and redaction.
+- `test/authentication_api_test.dart`: exact paths, methods, bodies, trace,
+  authorization, optional-header omission, and typed failures.
+- `test/authentication_session_controller_test.dart`: secure persistence,
+  rotation concurrency, stale completion, corrupt restore, state transitions,
+  restrictions, and local-first logout.
+- `test/authentication_widget_router_test.dart`: mobile/PIN behavior,
+  invalid credentials, semantics, EN/FA/PS direction and 200% scale, bootstrap,
+  restored protected routing, logout, and terminal recovery.
+
+Golden baselines remain deferred. Runtime screenshot comparison and Android
+TalkBack smoke remain manual Phase E evidence.
+
+## Chrome runtime evidence — 19 July 2026
+
+The development build launched successfully in Chrome 150 with
+`APP_ENV=development` and `API_BASE_URL=http://74.118.81.141`. Mobile entry,
+six-digit PIN entry, automatic guarded submission, and the safe offline error
+state rendered without a Flutter runtime exception. The browser refused the
+login request at CORS preflight because the deployed API response did not
+include `Access-Control-Allow-Origin` for the generated `localhost` origin.
+The request therefore did not reach the login controller, and no live
+credential/error-envelope result is claimed from Chrome.
+
+Console and Flutter-run evidence contained only the method, endpoint path,
+generated trace ID, and the browser CORS error; no mobile number, PIN,
+authorization value, or token appeared. No further invalid login was attempted.
+Matching-viewport acceptance, runtime FA/PS switching, 200% runtime inspection,
+Android TalkBack, and authenticated runtime flow remain pending; their
+automated widget coverage is listed above.
 
 ## DTO and mapper tests
 

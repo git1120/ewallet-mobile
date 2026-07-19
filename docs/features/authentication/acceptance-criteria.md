@@ -1,5 +1,13 @@
 # Authentication acceptance criteria
 
+## Implementation checkpoint — 19 July 2026
+
+Contract parsing, memory/secure token separation, rotating refresh, restore,
+confirmation, guarded navigation, two-step mobile/PIN login, terminal states,
+temporary placeholder, and local-first logout are implemented. Linguistic
+approval, Android TalkBack/runtime evidence, and matching-viewport visual
+acceptance remain open and are not claimed by the automated implementation.
+
 ## Contract and security
 
 - [ ] Login sends only `mobileNumber` and six-digit `pin` to

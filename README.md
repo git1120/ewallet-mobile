@@ -18,13 +18,13 @@ deferred.
 flutter --no-version-check pub get
 flutter --no-version-check run -d chrome \
   --dart-define=APP_ENV=development \
-  --dart-define=API_BASE_URL=http://localhost:8080
+  --dart-define=API_BASE_URL=http://74.118.81.141
 ```
 
-Development opens `/gallery`. The route is not registered in staging or
-production. Supported `APP_ENV` values are `development`, `staging`, and
-`production`. Production rejects localhost, HTTP, development, and staging API
-URLs at startup.
+Development opens customer authentication. The gallery remains available at
+`/gallery` only in development. Supported `APP_ENV` values are `development`,
+`staging`, and `production`. Production rejects localhost, HTTP,
+development/staging labels, and `74.118.81.141`.
 
 ```bash
 flutter --no-version-check run -d chrome \
@@ -58,6 +58,17 @@ reusable design-system components, and future feature boundaries. See
 [architecture](docs/architecture.md), [design system](docs/design-system.md),
 [localization](docs/localization.md), [security](docs/security.md), and
 [testing](docs/testing.md).
+
+## Authentication slice
+
+The Android-first customer slice supports ten-digit mobile number plus
+six-digit PIN login, rotating refresh credentials, restoration and confirmation
+through `GET /api/v1/auth/devices`, guarded routes, a temporary authenticated
+placeholder, current-session logout, and terminal recovery. Access tokens are
+memory-only; refresh/session material uses `SecureStore`.
+
+Flutter Web remains a development and visual-validation target. Production
+browser authentication is not approved.
 
 ## Coding-agent entry points
 

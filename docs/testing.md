@@ -1,9 +1,11 @@
 # Testing
 
 Unit tests cover environments, formatting, masking, redaction, idempotency
-keys, and refresh concurrency. Widget tests cover buttons, inputs, PIN, OTP,
-alerts, loading/empty/error states, financial cards, localization direction,
-semantics, production gallery exclusion, and 200% text scaling.
+keys, authentication DTO/API contracts, secure rotating sessions, controller
+state, router guards, and refresh concurrency. Widget tests cover buttons,
+customer mobile/PIN login, inputs, PIN, OTP, alerts, loading/empty/error states,
+financial cards, localization direction, semantics, production gallery
+exclusion, and 200% text scaling.
 
 Run:
 

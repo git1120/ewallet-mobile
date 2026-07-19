@@ -2,17 +2,19 @@
 
 ## Purpose and status
 
-This package is the design, backend-contract, security, navigation, and test
-analysis for the first customer-authentication implementation slice. It is not
-feature implementation: no authentication route, widget, API repository, token
-persistence workflow, or route guard exists yet.
+This package governs the first customer-authentication implementation slice.
+Infrastructure and the approved six-digit mobile/PIN regions were implemented
+on 19 July 2026. Signup, forgot PIN, OTP login, biometric login, profile data,
+and business destinations remain deferred.
 
-The smallest supported slice is mobile-number plus six-digit PIN login, secure
+The implemented slice is mobile-number plus six-digit PIN login, secure
 session persistence on Android, refresh rotation, authenticated-session
 confirmation through the device-session endpoint, an authenticated placeholder,
 logout, and terminal session recovery. Implementation must not begin until the
-gaps marked blocking in [contract gaps](contract-gaps.md) are resolved or the
-documented temporary behavior is accepted.
+gaps marked blocking in [contract gaps](contract-gaps.md) are resolved or their
+temporary behavior is accepted; this task accepted the recorded safe temporary
+behaviors. Product visual/language review remains open, so the composite
+reference is `in-progress`, not validated.
 
 ## Authority
 
@@ -67,12 +69,13 @@ Two Flutter integration mismatches must be fixed during implementation:
 
 See [contract gaps](contract-gaps.md) for ownership and blocking decisions.
 
-## Next phase
+## Implemented boundary
 
-Phase A is contract DTOs, parsing, and error-mapping tests. It may start only
-after product/backend acceptance of the six-digit PIN flow authority and the
-device-session endpoint as the first-slice session-confirmation probe. UI work
-does not begin until Phases A–C satisfy their exit criteria.
+Implemented code lives under `lib/features/authentication/`, with shared session
+coordination under `lib/app/session/` and corrected transport behavior under
+`lib/core/api/`. Routes are `/`, `/login`, `/authenticated`, and
+`/session-ended`. The authenticated route is explicitly temporary and contains
+no profile, wallet, account, or balance data.
 
 ## Documents
 

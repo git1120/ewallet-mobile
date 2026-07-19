@@ -42,18 +42,17 @@ void main() {
     expect(find.text('A deliberately long accessible label'), findsOneWidget);
   });
 
-  testWidgets('development app opens localized component gallery', (
-    tester,
-  ) async {
+  testWidgets('development app opens localized login', (tester) async {
     await tester.pumpWidget(
       IbaApp(
         config: EnvironmentConfig.forEnvironment(AppEnvironment.development),
         preferences: MemoryPreferences(),
+        secureStore: MemorySecureStore(),
       ),
     );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('Component gallery'), findsOneWidget);
+    expect(find.text('Welcome back'), findsOneWidget);
     expect(find.text('Continue'), findsOneWidget);
   });
 
@@ -62,13 +61,11 @@ void main() {
       IbaApp(
         config: EnvironmentConfig.forEnvironment(AppEnvironment.production),
         preferences: MemoryPreferences(),
+        secureStore: MemorySecureStore(),
       ),
     );
     await tester.pumpAndSettle();
     expect(find.text('Component gallery'), findsNothing);
-    expect(
-      find.text('Your secure wallet foundation is ready.'),
-      findsOneWidget,
-    );
+    expect(find.text('Welcome back'), findsOneWidget);
   });
 }

@@ -27,6 +27,6 @@ final class PlatformSecureStore implements SecureStore {
 }
 
 abstract final class SecretKeys {
-  static const accessToken = 'access_token';
-  static const refreshToken = 'refresh_token';
+  static const refreshToken = 'iba.auth.refresh_token.v1';
+  static const sessionId = 'iba.auth.session_id.v1';
 }

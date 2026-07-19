@@ -10,8 +10,26 @@ final class SafeLogger {
 
   static const _sensitiveKeys = {
     'authorization',
+    'cookie',
+    'set-cookie',
+    'mobile',
+    'mobile_number',
+    'mobilenumber',
+    'username',
+    'user_id',
+    'userid',
+    'roles',
+    'session_id',
+    'sessionid',
+    'device_id',
+    'deviceid',
+    'device_name',
+    'user-agent',
     'access_token',
+    'accesstoken',
     'refresh_token',
+    'refreshtoken',
+    'token',
     'pin',
     'otp',
     'nid',
@@ -23,7 +41,13 @@ final class SafeLogger {
   };
 
   Object? redact(Object? value, {String? key}) {
-    if (key != null && _sensitiveKeys.contains(key.toLowerCase())) {
+    final normalizedKey = key
+        ?.replaceAll('-', '_')
+        .replaceAll(RegExp(r'(?<=[a-z])(?=[A-Z])'), '_')
+        .toLowerCase();
+    if (normalizedKey != null &&
+        (_sensitiveKeys.contains(key!.toLowerCase()) ||
+            _sensitiveKeys.contains(normalizedKey))) {
       return '[REDACTED]';
     }
     if (value is Map) {

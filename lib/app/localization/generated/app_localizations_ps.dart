@@ -163,4 +163,139 @@ class AppLocalizationsPs extends AppLocalizations {
 
   @override
   String get networkError => 'خپل اتصال وګورئ او بیا هڅه وکړئ.';
+
+  @override
+  String get validationError => 'معلومات وګورئ او بیا هڅه وکړئ.';
+
+  @override
+  String get serverUnavailable =>
+      'اوس مهال ننوتل ممکن نه دي. وروسته بیا هڅه وکړئ.';
+
+  @override
+  String get authLoginScreenTitle => 'بیا ښه راغلاست';
+
+  @override
+  String get authLoginScreenSemanticLabel => 'د IBA برېښنايي بټوې ته ننوتل';
+
+  @override
+  String get authLoginSubtitle => 'په خپل موبایل شمېرې سره ننوځئ';
+
+  @override
+  String get authMobileLabel => 'د موبایل شمېره';
+
+  @override
+  String get authMobileHint => 'خپله ثبت شوې موبایل شمېره دننه کړئ';
+
+  @override
+  String get authMobileRequired => 'خپله موبایل شمېره دننه کړئ.';
+
+  @override
+  String get authMobileInvalid => 'یوه سمه ۱۰ رقمي موبایل شمېره دننه کړئ.';
+
+  @override
+  String get authContinue => 'دوام';
+
+  @override
+  String get authPinScreenTitle => 'خپل پین دننه کړئ';
+
+  @override
+  String get authPinInstruction => 'د دوام لپاره خپل ۶ رقمي پین دننه کړئ';
+
+  @override
+  String get authPinFieldLabel => 'د ۶ رقمي پین خوندي کیپډ';
+
+  @override
+  String get authDeletePinDigit => 'د پین رقم ړنګ کړئ';
+
+  @override
+  String get authChangeMobile => 'شمېره بدله کړئ';
+
+  @override
+  String get authSigningIn => 'ننوتل روان دي…';
+
+  @override
+  String get authInvalidCredentials =>
+      'د موبایل شمېره یا پین ناسم دی. بیا هڅه وکړئ.';
+
+  @override
+  String get authAccountTemporarilyLockedTitle => 'پین لنډمهاله تړل شوی';
+
+  @override
+  String get authAccountTemporarilyLockedMessage =>
+      'ستاسو د خوندیتوب لپاره، په پین ننوتل لنډمهاله نشته. وروسته بیا هڅه وکړئ.';
+
+  @override
+  String get authAccountSuspendedTitle => 'حساب ځنډول شوی';
+
+  @override
+  String get authAccountSuspendedMessage =>
+      'اوس مهال دې حساب ته ننوتلای نه شئ.';
+
+  @override
+  String get authAccountLockedTitle => 'حساب محدود شوی';
+
+  @override
+  String get authAccountLockedMessage => 'اوس مهال دې حساب ته ننوتلای نه شئ.';
+
+  @override
+  String get authAccountClosedTitle => 'حساب تړل شوی';
+
+  @override
+  String get authAccountClosedMessage =>
+      'دا حساب تړل شوی او د ننوتلو لپاره نه شي کارېدلی.';
+
+  @override
+  String get authSessionExpiredTitle => 'ناسته پای ته رسېدلې';
+
+  @override
+  String get authSessionExpiredMessage =>
+      'ستاسو د خوندیتوب لپاره، د دوام په موخه بیا ننوځئ.';
+
+  @override
+  String get authSessionEndedTitle => 'ناسته پای ته ورسېده';
+
+  @override
+  String get authSessionEndedMessage => 'د دوام لپاره بیا ننوځئ.';
+
+  @override
+  String get authLoginAgain => 'بیا ننوځئ';
+
+  @override
+  String get authCheckingSession => 'ستاسو خوندي ناسته کتل کېږي…';
+
+  @override
+  String get authOfflineTitle => 'انټرنېټ نشته';
+
+  @override
+  String get authOfflineMessage => 'خپل اتصال وګورئ او بیا هڅه وکړئ.';
+
+  @override
+  String get authServerUnavailableTitle => 'خدمت نشته';
+
+  @override
+  String get authServerUnavailableMessage =>
+      'اوس مهال ننوتل ممکن نه دي. وروسته بیا هڅه وکړئ.';
+
+  @override
+  String get authRetry => 'بیا هڅه';
+
+  @override
+  String get authLogout => 'وتل';
+
+  @override
+  String get authLoggingOut => 'وتل روان دي…';
+
+  @override
+  String get authPrivacyPinMessage =>
+      'خپل پین له هېچا سره مه شریکوئ. د IBA کارکوونکي به یې هېڅکله درڅخه ونه غواړي.';
+
+  @override
+  String get authGenericError => 'ستونزه رامنځته شوه. بیا هڅه وکړئ.';
+
+  @override
+  String get authSessionActiveTitle => 'ستاسو خوندي ناسته فعاله ده';
+
+  @override
+  String get authSessionActiveMessage =>
+      'دا لنډمهاله پاڼه تاییدوي چې خوندي لاسرسی سم کار کوي.';
 }

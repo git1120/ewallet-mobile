@@ -164,4 +164,139 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get networkError => 'اتصال خود را بررسی و دوباره تلاش کنید.';
+
+  @override
+  String get validationError => 'معلومات را بررسی کرده و دوباره تلاش کنید.';
+
+  @override
+  String get serverUnavailable =>
+      'در حال حاضر ورود ممکن نیست. بعداً دوباره تلاش کنید.';
+
+  @override
+  String get authLoginScreenTitle => 'خوش آمدید';
+
+  @override
+  String get authLoginScreenSemanticLabel => 'ورود به کیف پول الکترونیکی IBA';
+
+  @override
+  String get authLoginSubtitle => 'با شماره موبایل خود وارد شوید';
+
+  @override
+  String get authMobileLabel => 'شماره موبایل';
+
+  @override
+  String get authMobileHint => 'شماره موبایل ثبت‌شده خود را وارد کنید';
+
+  @override
+  String get authMobileRequired => 'شماره موبایل خود را وارد کنید.';
+
+  @override
+  String get authMobileInvalid => 'یک شماره موبایل معتبر ۱۰ رقمی وارد کنید.';
+
+  @override
+  String get authContinue => 'ادامه';
+
+  @override
+  String get authPinScreenTitle => 'رمز خود را وارد کنید';
+
+  @override
+  String get authPinInstruction => 'برای ادامه رمز ۶ رقمی خود را وارد کنید';
+
+  @override
+  String get authPinFieldLabel => 'صفحه‌کلید امن رمز ۶ رقمی';
+
+  @override
+  String get authDeletePinDigit => 'حذف رقم رمز';
+
+  @override
+  String get authChangeMobile => 'تغییر شماره';
+
+  @override
+  String get authSigningIn => 'در حال ورود…';
+
+  @override
+  String get authInvalidCredentials =>
+      'شماره موبایل یا رمز نادرست است. دوباره تلاش کنید.';
+
+  @override
+  String get authAccountTemporarilyLockedTitle => 'رمز به‌طور موقت قفل است';
+
+  @override
+  String get authAccountTemporarilyLockedMessage =>
+      'برای امنیت شما، ورود با رمز موقتاً در دسترس نیست. بعداً دوباره تلاش کنید.';
+
+  @override
+  String get authAccountSuspendedTitle => 'حساب تعلیق شده است';
+
+  @override
+  String get authAccountSuspendedMessage =>
+      'در حال حاضر نمی‌توانید وارد این حساب شوید.';
+
+  @override
+  String get authAccountLockedTitle => 'حساب محدود است';
+
+  @override
+  String get authAccountLockedMessage =>
+      'در حال حاضر نمی‌توانید وارد این حساب شوید.';
+
+  @override
+  String get authAccountClosedTitle => 'حساب بسته است';
+
+  @override
+  String get authAccountClosedMessage =>
+      'این حساب بسته است و نمی‌توان با آن وارد شد.';
+
+  @override
+  String get authSessionExpiredTitle => 'نشست منقضی شد';
+
+  @override
+  String get authSessionExpiredMessage => 'برای امنیت شما، دوباره وارد شوید.';
+
+  @override
+  String get authSessionEndedTitle => 'نشست پایان یافت';
+
+  @override
+  String get authSessionEndedMessage => 'برای ادامه دوباره وارد شوید.';
+
+  @override
+  String get authLoginAgain => 'ورود دوباره';
+
+  @override
+  String get authCheckingSession => 'در حال بررسی نشست امن شما…';
+
+  @override
+  String get authOfflineTitle => 'اتصال اینترنت وجود ندارد';
+
+  @override
+  String get authOfflineMessage => 'اتصال خود را بررسی و دوباره تلاش کنید.';
+
+  @override
+  String get authServerUnavailableTitle => 'خدمت در دسترس نیست';
+
+  @override
+  String get authServerUnavailableMessage =>
+      'در حال حاضر ورود ممکن نیست. بعداً دوباره تلاش کنید.';
+
+  @override
+  String get authRetry => 'تلاش دوباره';
+
+  @override
+  String get authLogout => 'خروج';
+
+  @override
+  String get authLoggingOut => 'در حال خروج…';
+
+  @override
+  String get authPrivacyPinMessage =>
+      'رمز خود را با کسی شریک نسازید. کارمندان IBA هرگز آن را درخواست نمی‌کنند.';
+
+  @override
+  String get authGenericError => 'مشکلی رخ داد. دوباره تلاش کنید.';
+
+  @override
+  String get authSessionActiveTitle => 'نشست امن شما فعال است';
+
+  @override
+  String get authSessionActiveMessage =>
+      'این صفحه موقت تأیید می‌کند که دسترسی محافظت‌شده درست کار می‌کند.';
 }

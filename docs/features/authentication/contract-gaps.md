@@ -5,6 +5,9 @@ the decision; it does not imply backend work is authorized in this repository.
 
 ## AUTH-GAP-01 — Login identifier (resolved)
 
+**Implementation update (19 July 2026):** closed for the first slice. Flutter
+serializes exactly ten ASCII digits; no implicit `+93` conversion is made.
+
 - **Category / desired behavior:** API; serialize the exact supported login
   identity.
 - **Approved reference / backend / Flutter:** both auth boards show mobile;
@@ -21,6 +24,10 @@ the decision; it does not imply backend work is authorized in this repository.
   pure normalization tests without changing backend shape.
 
 ## AUTH-GAP-02 — PIN-length visual conflict
+
+**Implementation update (19 July 2026):** resolved for this slice by the
+explicit six-digit task direction. Four-digit and OTP-first regions remain
+deferred.
 
 - **Category / desired behavior:** visual/API; one authoritative login PIN
   length.
@@ -51,6 +58,9 @@ the decision; it does not imply backend work is authorized in this repository.
 
 ## AUTH-GAP-04 — Forgot PIN, signup, and help actions
 
+**Implementation update (19 July 2026):** unsupported actions are omitted, not
+tappable or presented as available. Product visual sign-off remains open.
+
 - **Category / desired behavior:** product/navigation/API; visible actions lead
   somewhere valid.
 - **Reference / backend / Flutter:** auth boards show all three; login backend
@@ -63,6 +73,9 @@ the decision; it does not imply backend work is authorized in this repository.
   regions.
 
 ## AUTH-GAP-05 — Lock countdown and remaining attempts
+
+**Implementation update (19 July 2026):** the locked state contains neither a
+countdown nor an attempt count. Exact board fidelity remains open.
 
 - **Category / desired behavior:** API/UX; accurate attempts and unlock time.
 - **Reference / backend / Flutter:** recovery board shows `14:59`; backend
@@ -151,6 +164,10 @@ the decision; it does not imply backend work is authorized in this repository.
 
 ## AUTH-GAP-12 — Current user/profile confirmation
 
+**Implementation update (19 July 2026):** the temporary probe is implemented:
+`GET /api/v1/auth/devices`, exact current session ID match, and `ACTIVE`
+status. No profile is fabricated.
+
 - **Category / desired behavior:** API/session; confirm restored identity/session.
 - **Reference / backend / Flutter:** no customer profile `/me`; authenticated
   `GET /api/v1/auth/devices` exists and JWT filter validates current session.
@@ -179,6 +196,9 @@ the decision; it does not imply backend work is authorized in this repository.
 
 ## AUTH-GAP-14 — Flutter error-envelope mismatch
 
+**Implementation update (19 July 2026):** closed. Central parsing reads
+`error.code`, safe validation metadata, `meta.traceId`, and `X-Trace-Id`.
+
 - **Category / desired behavior:** Flutter foundation; map exact backend errors.
 - **Reference / backend / Flutter:** backend uses `error.code` and
   `meta.traceId`/`X-Trace-Id`; `FailureInterceptor` reads top-level `code` and
@@ -191,6 +211,10 @@ the decision; it does not imply backend work is authorized in this repository.
   sanitized logging.
 
 ## AUTH-GAP-15 — Access-token storage mismatch
+
+**Implementation update (19 July 2026):** closed. Authorization reads a
+testable memory token source; only refresh/session material uses named
+`SecureStore` keys.
 
 - **Category / desired behavior:** Flutter security; memory-only access token.
 - **Reference / backend / Flutter:** security contract requires in-memory access

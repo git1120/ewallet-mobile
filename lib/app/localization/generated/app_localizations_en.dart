@@ -165,4 +165,140 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get networkError => 'Check your connection and try again.';
+
+  @override
+  String get validationError => 'Check the information and try again.';
+
+  @override
+  String get serverUnavailable =>
+      'We cannot sign you in right now. Try again later.';
+
+  @override
+  String get authLoginScreenTitle => 'Welcome back';
+
+  @override
+  String get authLoginScreenSemanticLabel => 'Sign in to IBA E-Wallet';
+
+  @override
+  String get authLoginSubtitle => 'Login with your mobile number';
+
+  @override
+  String get authMobileLabel => 'Mobile number';
+
+  @override
+  String get authMobileHint => 'Enter your registered mobile number';
+
+  @override
+  String get authMobileRequired => 'Enter your mobile number.';
+
+  @override
+  String get authMobileInvalid => 'Enter a valid 10-digit mobile number.';
+
+  @override
+  String get authContinue => 'Continue';
+
+  @override
+  String get authPinScreenTitle => 'Enter your PIN';
+
+  @override
+  String get authPinInstruction => 'Enter your 6-digit PIN to continue';
+
+  @override
+  String get authPinFieldLabel => 'Secure 6-digit PIN keypad';
+
+  @override
+  String get authDeletePinDigit => 'Delete PIN digit';
+
+  @override
+  String get authChangeMobile => 'Change number';
+
+  @override
+  String get authSigningIn => 'Signing in…';
+
+  @override
+  String get authInvalidCredentials =>
+      'The mobile number or PIN is incorrect. Try again.';
+
+  @override
+  String get authAccountTemporarilyLockedTitle => 'PIN temporarily locked';
+
+  @override
+  String get authAccountTemporarilyLockedMessage =>
+      'For your security, PIN login is temporarily unavailable. Try again later.';
+
+  @override
+  String get authAccountSuspendedTitle => 'Account suspended';
+
+  @override
+  String get authAccountSuspendedMessage =>
+      'You cannot sign in to this account right now.';
+
+  @override
+  String get authAccountLockedTitle => 'Account restricted';
+
+  @override
+  String get authAccountLockedMessage =>
+      'You cannot sign in to this account right now.';
+
+  @override
+  String get authAccountClosedTitle => 'Account closed';
+
+  @override
+  String get authAccountClosedMessage =>
+      'This account is closed and cannot be used to sign in.';
+
+  @override
+  String get authSessionExpiredTitle => 'Session expired';
+
+  @override
+  String get authSessionExpiredMessage =>
+      'For your security, sign in again to continue.';
+
+  @override
+  String get authSessionEndedTitle => 'Session ended';
+
+  @override
+  String get authSessionEndedMessage => 'Sign in again to continue.';
+
+  @override
+  String get authLoginAgain => 'Sign in again';
+
+  @override
+  String get authCheckingSession => 'Checking your secure session…';
+
+  @override
+  String get authOfflineTitle => 'No internet connection';
+
+  @override
+  String get authOfflineMessage => 'Check your connection and try again.';
+
+  @override
+  String get authServerUnavailableTitle => 'Service unavailable';
+
+  @override
+  String get authServerUnavailableMessage =>
+      'We cannot sign you in right now. Try again later.';
+
+  @override
+  String get authRetry => 'Try again';
+
+  @override
+  String get authLogout => 'Log out';
+
+  @override
+  String get authLoggingOut => 'Logging out…';
+
+  @override
+  String get authPrivacyPinMessage =>
+      'Never share your PIN. IBA staff will never ask for it.';
+
+  @override
+  String get authGenericError => 'Something went wrong. Try again.';
+
+  @override
+  String get authSessionActiveTitle => 'Your secure session is active';
+
+  @override
+  String get authSessionActiveMessage =>
+      'This temporary destination confirms that protected access is working.';
 }

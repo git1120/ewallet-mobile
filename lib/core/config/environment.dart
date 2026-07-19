@@ -14,7 +14,7 @@ final class EnvironmentConfig {
     const name = String.fromEnvironment('APP_ENV', defaultValue: 'development');
     const url = String.fromEnvironment(
       'API_BASE_URL',
-      defaultValue: 'http://localhost:8080',
+      defaultValue: 'http://74.118.81.141',
     );
     final environment = AppEnvironment.values.firstWhere(
       (value) => value.name == name,
@@ -30,7 +30,7 @@ final class EnvironmentConfig {
     final url =
         apiBaseUrl ??
         switch (environment) {
-          AppEnvironment.development => 'http://localhost:8080',
+          AppEnvironment.development => 'http://74.118.81.141',
           AppEnvironment.staging => 'https://staging-api.iba.example',
           AppEnvironment.production => 'https://api.iba.example',
         };
@@ -42,6 +42,7 @@ final class EnvironmentConfig {
         (parsed.scheme != 'https' ||
             parsed.host == 'localhost' ||
             parsed.host.startsWith('127.') ||
+            parsed.host == '74.118.81.141' ||
             parsed.host.contains('staging') ||
             parsed.host.contains('dev'))) {
       throw StateError('Production requires a production HTTPS API URL.');

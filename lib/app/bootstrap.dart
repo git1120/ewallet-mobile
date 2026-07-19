@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iba_ewallet/app/app.dart';
 import 'package:iba_ewallet/core/config/environment.dart';
 import 'package:iba_ewallet/core/storage/preferences_store.dart';
@@ -16,11 +15,7 @@ Future<void> bootstrap() async {
         await SharedPreferences.getInstance(),
       );
       FlutterError.onError = FlutterError.presentError;
-      runApp(
-        ProviderScope(
-          child: IbaApp(config: config, preferences: preferences),
-        ),
-      );
+      runApp(IbaApp(config: config, preferences: preferences));
     },
     (error, stackTrace) {
       // A crash reporter can be attached here. Never include sensitive state.
