@@ -10,6 +10,9 @@ Identify the change, repository boundary, base/reference, and exclusions.
 
 List files, contracts, decisions, repository status, tests, and no-write
 validation commands. Separate pre-existing changes from reviewed work.
+For authentication UI, verify that its backend contract, Visual Reference
+Contract, state machine, security contract, and contract gaps existed before
+implementation began.
 
 ## Findings
 

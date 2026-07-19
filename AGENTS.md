@@ -56,6 +56,9 @@ For UI work, also read `docs/design-system.md`,
   user-facing text. Use directional APIs instead of physical left/right layout.
 - Never log secrets or sensitive financial/customer data. Store secrets only
   through `SecureStore`, never shared preferences.
+- Authentication UI implementation may not begin until its backend contract,
+  Visual Reference Contract, state machine, security contract, and contract
+  gaps are documented.
 - Never blindly retry a money-moving operation after an uncertain timeout.
   A timeout is not a confirmed transaction failure.
 - Preserve public contracts unless the task explicitly changes them. Do not

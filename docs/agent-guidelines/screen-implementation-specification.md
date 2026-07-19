@@ -31,3 +31,7 @@ loading/error/success state, primary/secondary actions, fixed and scrollable
 elements, responsive constraints, allowed adaptations, and prohibited
 adaptations. Open the image and related boards first. Text requirements do not
 authorize changing a binding image.
+
+Authentication UI implementation may not begin until its backend contract,
+Visual Reference Contract, state machine, security contract, and contract gaps
+are documented.

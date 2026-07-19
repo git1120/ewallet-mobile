@@ -9,7 +9,8 @@ screens from each composite board.
 
 | Feature group | Reference IDs | Surface | State / locale-direction | Implementation | Flutter route/file | Visual | Accessibility | RTL | Backend | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Authentication/recovery | `flow-auth-entry-v1`, `flow-auth-signup-foundation-v1`, `flow-pin-recovery-v1` | customer | multiple / en-ltr | not-started | — | not-run | not-run | required | pending | Composite boards require per-screen contracts. |
+| Authentication entry | `flow-auth-entry-v1`, `flow-auth-signup-foundation-v1` | customer | multiple / en-ltr | not-started | — | contract-reviewed | specified, not-run | specified, not-run | reviewed with gaps | Per-screen contracts are in `docs/features/authentication/`. Six-digit mobile/PIN entry is ready for phased infrastructure implementation after recorded blockers are accepted; OTP-first/four-digit/signup/biometric regions remain deferred or blocked. No screen is implemented. |
+| PIN recovery | `flow-pin-recovery-v1` | customer | multiple / en-ltr | not-started | — | inspected, not-run | required | required | blocked-by-contract | No customer forgot-PIN/reset API was found. Locked-state countdown and remaining-attempt data are also absent. |
 | Transfers/beneficiaries | `flow-transfer-financial-v1`, `flow-transfer-payment-v1`, `flow-recipient-validation-v1`, `flow-transaction-risk-v1`, `flow-beneficiary-v1` | customer | multiple / en-ltr | not-started | — | not-run | not-run | required | pending | Financial truth and recovery require API contracts. |
 | Top-up/bills | `flow-top-up-mobile-v1`, `flow-top-up-withdrawal-v1`, `flow-bill-payment-v1` | customer | multiple / en-ltr | not-started | — | not-run | not-run | required | pending | No API behavior inferred from images. |
 | Accounts/transactions | `flow-customer-core-v1`, `flow-transactions-v1`, `flow-transaction-history-v1`, `flow-statements-v1`, `flow-account-balance-states-v1`, `flow-transaction-dispute-v1`, `flow-transaction-recovery-v1` | customer | multiple / en-ltr | not-started | — | not-run | not-run | required | pending | Includes visible/hidden balance and recovery states. |
@@ -18,6 +19,7 @@ screens from each composite board.
 | Components | `component-financial-v1`, `component-button-v1`, `component-input-form-v1`, `component-navigation-layout-v1`, `component-feedback-v1`, `component-fintech-v1`, `component-security-privacy-v1`, `component-responsive-navigation-v1`, `component-feedback-status-v1` | shared | multiple / neutral-bidi | foundation-only | `lib/design_system/` | not-run | partial | partial | n/a | Existing components predate these boards; no fidelity claim made. |
 | Foundations/supporting | `foundation-design-system-v1`, `foundation-localization-rtl-v1`, `foundation-accessibility-v1`, `foundation-motion-v1`, `foundation-ux-writing-v1`, `foundation-api-error-v1`, `foundation-flutter-map-v1`, `component-screen-patterns-v1` | shared | multiple | foundation-only / n/a | `lib/core/theme/`, docs | not-run | partial | partial | pending/n/a | Supporting mappings never override accepted architecture/contracts. |
 
-Superseded references: none. API-blocked screens: not yet assessed. Passed
-pixel-level screens: none. Additional reference states must be identified during
-the first per-feature implementation specification.
+Superseded references: none. API-blocked authentication regions are recorded in
+`docs/features/authentication/contract-gaps.md`; other feature groups are not
+yet assessed. Passed pixel-level screens: none. Additional reference states
+must be identified during each per-feature implementation specification.

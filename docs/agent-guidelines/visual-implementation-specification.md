@@ -21,3 +21,7 @@ Store screenshots only in
 Regression tests should lock stable geometry/states with documented rendering
 tolerance. Acceptance requires exact-image review, matching major regions and
 states, RTL/200%/responsive evidence, approved deviations, and status update.
+
+Authentication UI implementation is additionally gated on a documented backend
+contract, Visual Reference Contract, state machine, security contract, and
+contract-gap register.

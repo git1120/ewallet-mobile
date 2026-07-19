@@ -31,6 +31,8 @@ description: Implement repository-compliant IBA E-Wallet Flutter UI using approv
 5. Select a screen pattern. Define entry/data source, all applicable states,
    responsive reflow, RTL/mixed-direction behavior, accessibility/focus, and
    financial privacy before editing.
+   Authentication UI may not begin until its backend contract, Visual Reference
+   Contract, state machine, security contract, and contract gaps are documented.
 6. Map every visible element to `Iba*` components and identify system gaps.
    Reuse an existing component when sufficient. Extend a shared component when
    the variation is broadly reusable. Compose shared components for a

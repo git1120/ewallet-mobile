@@ -35,3 +35,8 @@ When UI needs unsupported behavior, document:
 - security and UX impact;
 - safe temporary behavior (often disabled/unavailable, never fake data);
 - backend decision required and owner/follow-up.
+
+Authentication UI implementation may not begin until the feature's backend
+contract, Visual Reference Contract, state machine, security contract, and
+contract gaps are documented. The feature package links these artifacts;
+general API guidance must not duplicate or replace them.

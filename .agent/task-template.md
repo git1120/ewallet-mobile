@@ -15,6 +15,9 @@ List allowed repositories/directories and explicitly prohibited changes.
 ## Files and contracts to inspect
 
 List existing code, tests, API/OpenAPI/Postman sources, and accepted decisions.
+For authentication UI, link the completed backend contract, Visual Reference
+Contract, state machine, security contract, and contract-gap register before
+implementation begins.
 
 ## Required behavior and states
 
