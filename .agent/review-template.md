@@ -25,3 +25,12 @@ For each finding provide:
 
 State explicitly when a category has no findings. Verify tests instead of
 trusting claims, and never attribute pre-existing changes to the reviewed work.
+
+## Pixel-fidelity review
+
+Record the visual reference and viewport. Decide on layout, spacing, typography,
+color, component, navigation, state, and RTL fidelity; accessibility impact;
+unauthorized deviations; missing states; and screenshot evidence.
+
+Decision: Accept / Accept with documented deviation / Reject for visual
+mismatch / Blocked by contract / Blocked by accessibility / Reference unclear.

@@ -15,3 +15,26 @@ The current task may explicitly authorize a narrow exception. Otherwise,
 security, backend-contract, SDK, repository-boundary, and financial-retry
 exceptions require human approval before implementation. A temporary exception
 must fail safely and must not be copied as a general pattern.
+
+## Design Deviation Record
+
+No agent may approve its own visual deviation.
+
+```text
+Reference ID:
+Reference path:
+Affected screen or component:
+Affected region:
+Approved behavior:
+Proposed deviation:
+Reason:
+Security impact:
+Accessibility impact:
+Localization/RTL impact:
+Responsive impact:
+Alternatives evaluated:
+Temporary or permanent:
+Approval required from:
+Approval status:
+Follow-up:
+```

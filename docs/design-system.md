@@ -22,3 +22,7 @@ For implementation rules, component-extension decisions, screen states, and
 validation, use the [design-system rules](agent-guidelines/design-system-rules.md)
 and the actionable
 [IBA Flutter design-system skill](../skills/iba-flutter-design-system/SKILL.md).
+Approved visuals are contracts, not inspiration. Start with the
+[visual implementation specification](agent-guidelines/visual-implementation-specification.md)
+and [manifest](../design-references/manifest.yaml); tokens/components reproduce
+approved relationships rather than override them.

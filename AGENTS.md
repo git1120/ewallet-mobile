@@ -22,17 +22,12 @@ its compatibility with the pinned SDK; do not add speculative dependencies.
 
 ## Source-of-truth priority
 
-1. Explicit current task
-2. Accepted architecture and security decisions
-3. Backend API contract and Postman collection
-4. This `AGENTS.md`
-5. Relevant repository skill
-6. Detailed documents in `docs/agent-guidelines/`
-7. Existing implementation patterns
-8. General Flutter conventions
-
-Mockups never override backend contracts or security rules. When sources
-conflict or a contract is missing, record the gap; do not invent behavior.
+For visual conflicts use: (1) security/privacy, (2) backend API and business
+contract, (3) accessibility, (4) approved visual reference, (5) repository
+tokens/shared components, (6) responsive/platform adaptation, (7) Flutter
+conventions, and (8) agent preference. Agents may not silently deviate.
+Security/accessibility corrections preserve the approved visual as closely as
+possible. Responsive adaptation is not permission to redesign hierarchy.
 
 ## Required reading
 
@@ -71,3 +66,26 @@ For UI work, also read `docs/design-system.md`,
 Follow `docs/agent-guidelines/definition-of-done.md` and report limitations
 honestly. Detailed rules and task routing are indexed at
 `docs/agent-guidelines/README.md`.
+
+## Approved Visual Specifications
+
+Approved screen and component images are binding, client/management-approved
+visual specifications. Implement them pixel by pixel as closely as Flutter,
+platform, localization, accessibility, and responsive constraints permit.
+They control hierarchy, layout, spacing relationships, component placement and
+dimensions, alignment, typography hierarchy, color, radius relationships,
+icons, navigation, and state presentation.
+
+Before UI work, inspect `design-references/manifest.yaml`, open the exact image,
+inspect related component and flow boards, identify reference IDs in the task
+and report, record viewport/state, and map elements to existing `Iba*`
+components. Validate at matching dimensions, preserve spacing/radius and exact
+navigation geometry, run the reference resolver, compare a screenshot where
+possible, document deviations before implementation, and update the status
+register. Never substitute Material defaults where the reference differs.
+
+Agents must not generate a new visual interpretation when an approved binding
+reference exists. Agents must not treat text descriptions as permission to
+alter a binding image. Agents may not improve an approved design based on
+personal judgment. Improvements require a separate approved design-change
+proposal. Never edit an approved reference during implementation.

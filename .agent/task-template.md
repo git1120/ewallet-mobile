@@ -22,6 +22,19 @@ Define entry conditions, actions, navigation, and loading, empty, error,
 offline, restricted, session-expired, disabled, read-only, success, pending,
 partial-data, retry, cancellation, and unknown-outcome behavior as applicable.
 
+## Visual Reference Contract
+
+- Approved reference IDs:
+- Reference image paths:
+- Reference viewport dimensions:
+- Related component references:
+- Related flow references:
+- Allowed visual deviations:
+- Required states:
+- Responsive adaptations:
+- Accessibility adaptations:
+- Backend contract dependencies:
+
 ## Security requirements
 
 Identify sensitive data, storage, logging/redaction, authorization, lifecycle,

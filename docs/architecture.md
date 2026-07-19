@@ -24,3 +24,5 @@ Coding agents must also follow the repository-specific
 [implementation workflow](agent-guidelines/implementation-workflow.md). These
 documents define dependency, DTO/domain, Riverpod, navigation, storage, and
 feature-boundary rules without changing the architecture described here.
+Approved visuals govern presentation only; they do not create routes, APIs,
+permissions, feature boundaries, or business contracts.

@@ -95,6 +95,19 @@ void main() {
     expect(violations.single.rule, AgentRule.mergeConflict);
     expect(violations.single.line, 1);
   });
+
+  test('reports a retired temp directory', () {
+    Directory('${root.path}/temp').createSync();
+
+    final violations = AgentRulesValidator(root: root).scan();
+
+    expect(
+      violations
+          .singleWhere((item) => item.rule == AgentRule.designReference)
+          .path,
+      'temp',
+    );
+  });
 }
 
 void _write(Directory root, String relativePath, String content) {

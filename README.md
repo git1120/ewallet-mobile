@@ -71,3 +71,18 @@ UI work must use the
 [IBA Flutter design-system skill](skills/iba-flutter-design-system/SKILL.md).
 Agents must inspect before editing, report exact validation, never run
 `flutter upgrade`, and never initialize Git or commit unless explicitly asked.
+
+## Approved visual references
+
+Client-approved designs are under
+[design-references](design-references/README.md); the incoming temporary
+directory was migrated and removed. Binding images may not be modified. List
+them with `dart run tool/list_design_references.dart` and its `--feature`,
+`--surface`, `--status`, or `--id` filters.
+
+UI implementation resolves and opens the exact image, related boards, and
+viewport, then ends with equivalent-viewport review and a
+[status-register](design-references/status-register.md) update. Use the
+[visual checklist](design-references/visual-review-checklist.md). Unavoidable
+differences follow the documented design-deviation process; personal redesign
+is never an implementation option.

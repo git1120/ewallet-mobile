@@ -22,3 +22,12 @@ failure, and—where an operation may have reached the server—unknown outcome.
 Associate errors with fields, retain safe input after recoverable errors, clear
 secrets at appropriate lifecycle boundaries, and focus/announce the first
 actionable error.
+
+## Visual Reference Contract
+
+Complex screens require: reference ID, image path, viewport, device class,
+orientation, locale, direction, balance visibility, account state,
+loading/error/success state, primary/secondary actions, fixed and scrollable
+elements, responsive constraints, allowed adaptations, and prohibited
+adaptations. Open the image and related boards first. Text requirements do not
+authorize changing a binding image.

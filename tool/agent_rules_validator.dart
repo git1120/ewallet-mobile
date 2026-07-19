@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'design_reference_manifest.dart';
+
 enum AgentRule {
   directDio('direct-dio'),
   printCall('print'),
@@ -12,7 +14,8 @@ enum AgentRule {
   credentialLogging('credential-logging'),
   developmentUrl('development-url'),
   siblingImport('sibling-import'),
-  mergeConflict('merge-conflict');
+  mergeConflict('merge-conflict'),
+  designReference('design-reference');
 
   const AgentRule(this.id);
   final String id;
@@ -91,6 +94,7 @@ final class AgentRulesValidator {
 
   List<AgentRuleViolation> scan() {
     final violations = <AgentRuleViolation>[];
+    _scanDesignReferences(violations);
     for (final entity in root.listSync(recursive: true, followLinks: false)) {
       if (entity is! File) continue;
       final path = _relativePath(entity.path);
@@ -106,6 +110,61 @@ final class AgentRulesValidator {
       return pathOrder != 0 ? pathOrder : a.line.compareTo(b.line);
     });
     return violations;
+  }
+
+  void _scanDesignReferences(List<AgentRuleViolation> violations) {
+    if (Directory('${root.path}/temp').existsSync()) {
+      _add(
+        AgentRule.designReference,
+        'temp',
+        1,
+        'Migrate approved designs to design-references; temp must not exist.',
+        violations,
+      );
+    }
+    final manifestFile = File('${root.path}/design-references/manifest.yaml');
+    if (!manifestFile.existsSync()) return;
+    try {
+      final manifest = DesignReferenceManifest.load(root);
+      for (final failure in manifest.validate()) {
+        _add(
+          AgentRule.designReference,
+          'design-references/manifest.yaml',
+          1,
+          failure,
+          violations,
+        );
+      }
+    } on Object catch (error) {
+      _add(
+        AgentRule.designReference,
+        'design-references/manifest.yaml',
+        1,
+        'Manifest cannot be parsed: $error',
+        violations,
+      );
+    }
+    final allowedProvenanceFiles = {
+      'design-references/manifest.yaml',
+      'design-references/migration-inventory.md',
+      'design-references/migration-report.md',
+      'tool/agent_rules_validator.dart',
+    };
+    for (final entity in root.listSync(recursive: true, followLinks: false)) {
+      if (entity is! File) continue;
+      final path = _relativePath(entity.path);
+      if (!_isTextFile(path) || allowedProvenanceFiles.contains(path)) continue;
+      final source = entity.readAsStringSync();
+      if (source.contains('temp/')) {
+        _add(
+          AgentRule.designReference,
+          path,
+          1,
+          'Do not reference the retired temp design path.',
+          violations,
+        );
+      }
+    }
   }
 
   void _scanDart(

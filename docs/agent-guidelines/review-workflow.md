@@ -22,3 +22,10 @@ Severity meanings:
   defect with a workaround or limited reach.
 - **Low:** narrow quality defect with limited impact.
 - **Informational:** non-blocking observation or preference.
+
+For UI, open the exact approved image and compare at an equivalent viewport.
+Verify every major region, alignment/spacing, header and bottom-navigation
+geometry, radius hierarchy, icon placement, typography, visibility, state
+variants, and RTL mirroring without redesign. Separate platform rendering
+differences from drift. Reject undocumented reinterpretation; attractive and
+functional alone is insufficient.

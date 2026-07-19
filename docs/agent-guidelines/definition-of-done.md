@@ -18,6 +18,12 @@ A change is complete only when every applicable item is satisfied and evidenced.
 - [ ] Limitations and contract gaps are disclosed.
 - [ ] No unrelated files or sibling repositories changed.
 - [ ] No Git repository was initialized and no commit was created unless asked.
+- [ ] Binding reference ID/image and viewport are recorded and inspected.
+- [ ] Related component/flow boards are inspected.
+- [ ] No unauthorized deviation exists; approved exceptions are linked.
+- [ ] Visual fidelity and required state variants are reviewed.
+- [ ] RTL, responsive behavior, and 200% text scale are validated.
+- [ ] Screenshot/equivalent smoke evidence is recorded; status is updated.
 
 Use `./tool/quality_gate.sh --build-web` for the standard full static gate.
 Runtime checks are still required when behavior or UI changes.

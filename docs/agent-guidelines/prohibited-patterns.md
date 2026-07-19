@@ -20,6 +20,13 @@
 | Runtime font download | Bundled Inter/Noto Naskh assets |
 | Secret in source/config or commit | Environment/secure platform mechanism and secret scanning |
 | Implicit commit or Git initialization | Only when current task explicitly authorizes it |
+| Redesigning an approved screen or using a generic substitute | Implement its binding reference |
+| Changing approved color, icons, radii, navigation, scan centering, sections, or actions | Match it or obtain an exception |
+| Merging states or changing balance visibility | Preserve approved variants |
+| Placeholder copy when approved copy exists | Localize approved meaning |
+| Broken LTR reused for RTL | Directional mirroring without redesign |
+| Creating, editing, or deleting references during coding | Preserve them; use change control |
+| Ignoring difficult visual detail | Record the gap before implementation |
 
 The validator automates only high-confidence subsets; absence of a validator
 finding does not make a prohibited pattern acceptable.

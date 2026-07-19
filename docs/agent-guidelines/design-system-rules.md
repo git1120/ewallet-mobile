@@ -31,3 +31,13 @@ styles without a documented gap.
 Validate new shared variations in the gallery, English/Dari/Pashto, RTL, 100%
 and 200% text scale, semantics, keyboard interaction where applicable, and
 reduced motion.
+
+## Approved visual contracts
+
+Approved references are visual contracts; tokens implement their visual
+language. Record image dimensions. A shared-component limitation is not
+permission to change a screen: decide whether the component must be fixed or
+extended, and never fork locally. Material defaults do not override approved
+visuals. Preserve parent/child radius geometry, navigation position, exact scan
+centering, financial visibility states, and icon family/stroke. Conflicts
+require a documented deviation, not a silent restyle.
