@@ -33,6 +33,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get textSize => 'Text size';
 
   @override
+  String get branding => 'Branding';
+
+  @override
   String get normal => 'Normal';
 
   @override

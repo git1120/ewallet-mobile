@@ -33,6 +33,9 @@ class AppLocalizationsFa extends AppLocalizations {
   String get textSize => 'اندازه متن';
 
   @override
+  String get branding => 'نشان تجاری';
+
+  @override
   String get normal => 'عادی';
 
   @override

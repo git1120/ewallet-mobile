@@ -14,6 +14,7 @@ import 'package:iba_ewallet/core/config/environment.dart';
 import 'package:iba_ewallet/core/error/app_failure.dart';
 import 'package:iba_ewallet/core/logging/safe_logger.dart';
 import 'package:iba_ewallet/core/storage/secure_storage.dart';
+import 'package:iba_ewallet/design_system/branding/iba_brand_mark.dart';
 import 'package:iba_ewallet/design_system/inputs/iba_pin_keypad.dart';
 import 'package:iba_ewallet/features/authentication/application/authentication_controller.dart';
 import 'package:iba_ewallet/features/authentication/domain/authentication_repository.dart';
@@ -69,6 +70,19 @@ void main() {
         wrapInScaffold: false,
       ),
     );
+    expect(
+      find.byKey(const ValueKey('auth-primary-brand-mark')),
+      findsOneWidget,
+    );
+    expect(
+      tester
+          .widget<IbaBrandMark>(
+            find.byKey(const ValueKey('auth-primary-brand-mark')),
+          )
+          .variant,
+      IbaBrandMarkVariant.standard,
+    );
+    expect(find.byIcon(Icons.verified_user_outlined), findsNothing);
     final continueButton = find.byKey(const ValueKey('auth-continue'));
     expect(
       tester

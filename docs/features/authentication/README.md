@@ -13,17 +13,22 @@ confirmation through the device-session endpoint, an authenticated placeholder,
 logout, and terminal session recovery. Implementation must not begin until the
 gaps marked blocking in [contract gaps](contract-gaps.md) are resolved or their
 temporary behavior is accepted; this task accepted the recorded safe temporary
-behaviors. Product visual/language review remains open, so the composite
-reference is `in-progress`, not validated.
+behaviors. The implemented mobile/PIN regions are visually validated with
+documented deviations. Language-owner review and deferred composite regions
+remain open without changing that scoped visual result.
 
 The measured 20 July 2026 fidelity pass corrected the mobile/PIN composition,
 external mobile label and country indicator, focus treatment, supported action
 placement, six-indicator rhythm, keypad geometry/dial labels, compact loading,
 responsive scrolling, and mobile-to-PIN scroll restoration. Clean EN/LTR and
 FA/RTL 412×915 screenshots are recorded under the governed artifact path.
-Final visual acceptance remains blocked by the missing approved brand asset and
-pending product/design approval of contract-driven omitted actions, exact
-country-prefix presentation, and privacy masking.
+The 20 July branding pass copied the user-approved IBA PNG assets byte-for-byte
+from the admin-panel working copy, introduced shared `IbaBrandMark`, replaced
+the temporary primary brand icon, regenerated clean EN/LTR and FA/RTL 412×915
+evidence, and reached **Accept with documented deviation** for the implemented
+mobile/PIN regions. The user approved the contract-driven omitted actions,
+backend-compatible country/mobile presentation, and privacy masking decisions.
+Composite splash/language/biometric regions remain deferred and unclaimed.
 
 Chrome development uses the Flutter 3.38 root development-server proxy.
 Browser requests remain same-origin at `/api/v1/...`; only `/api/` is forwarded
@@ -36,6 +41,11 @@ An independent authorized Chrome validation on 20 July 2026 completed login,
 device-session confirmation, browser-refresh restoration, one refresh
 rotation, logout, and post-logout non-restoration. Details and limitations are
 recorded in the test plan; no credential or token value was retained.
+
+Android TalkBack runtime remains blocked by unavailable local Android tooling,
+and Dari/Pashto linguistic-owner review remains open. Automated semantics,
+EN/FA/PS direction, 200% text, responsive, and no-overflow checks pass; neither
+runtime limitation is represented as completed.
 
 ## Authority
 

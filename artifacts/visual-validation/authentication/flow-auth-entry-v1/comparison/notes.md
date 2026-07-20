@@ -25,24 +25,24 @@
 | Category | Comparison decision |
 |---|---|
 | Overall composition | Mobile and PIN now preserve the approved centered secure-entry hierarchy, measured vertical landmarks, full-width primary region, six-indicator row, action row, and keypad grouping. Unsupported product regions remain intentionally absent. |
-| Geometry | Mobile: mark begins near y=145, title near y=264, field near y=397, Continue near y=484, reassurance near y=779. PIN: safe header near y=56, mark near y=105, title near y=200, indicators near y=341, action row near y=397, keypad near y=468. Directional sides are 16px at 412px. |
+| Geometry | Mobile: approved seal begins near y=145 in an 88px aspect-preserving box, title near y=264, field near y=397, Continue near y=484, reassurance near y=779. PIN: safe header near y=56, separate security mark near y=105, title near y=200, indicators near y=341, action row near y=397, keypad near y=468. Directional sides are 16px at 412px. |
 | Spacing | Screen-specific measured gaps reproduce the source-board proportions at 412×915. Constraint-driven scrolling preserves the hierarchy at 360×800, 390×844, 430×932, keyboard transitions, and 200% text. |
 | Typography | Bundled Inter and Noto Naskh Arabic are used. Title/body hierarchy and dial-letter labels match the binding flow. Platform font rasterization is accepted as platform tolerance. |
-| Color | Repository semantic institutional green, gold, off-white background, surface, outline, muted, and error colors are used. The security reassurance now uses the green security semantic rather than an unrelated blue information treatment. |
+| Color | The approved standard green/white PNG is used unchanged on the light authentication surface. Repository semantic institutional green, off-white background, surface, outline, muted, and error colors remain in the surrounding UI. The white-backed logo variant is reserved for dark/green surfaces. |
 | Radius | Field and action use the shared 12px radius. Keypad keys use 12px rounded rectangles with a light outline and low elevation. Focus is a single intentional 2px green border; focused errors use a single 2px error border. |
-| Icons | PIN shield, direction-aware back, country indicator, and backspace placement match the approved intent. The mobile brand artwork remains a temporary standard security icon because no approved brand asset exists. |
+| Icons and branding | The mobile primary brand region uses the approved IBA PNG through shared `IbaBrandMark`; no temporary primary-brand icon remains. The PIN shield is intentionally retained as a separate security concept. Direction-aware back, country indicator, and backspace placement match the approved intent. |
 | State | Local field error remains associated with mobile input. PIN invalid/offline/server feedback is localized and announced. Submitting keeps layout stable, disables the keypad/actions, clears the PIN immediately, and uses compact in-place loading; no branded success transition is invented. |
 | RTL | Dari screenshot evidence mirrors header and supported Change number placement. Mobile input, masked country/mobile context, indicators, numeric keypad, digit order, and delete column remain controlled LTR. Pashto follows the same runtime direction and is covered at 200% by widget tests. |
 | Accessibility | Interactive controls remain at least 48×48; keypad keys are approximately 121×64 at 412px. Screen/field/keypad/delete/loading/error semantics remain localized. Entered PIN values are excluded from semantics. Scroll reflow keeps controls reachable. |
 
 ## Remaining deviations
 
-1. The approved gold brand artwork cannot be reproduced because the repository
-   contains no approved image/vector asset. The temporary geometric security
-   mark is documented in `../fidelity-audit.md` as `DDR-AUTH-ENTRY-01`.
-2. Create Account, Need help, Forgot PIN, and biometric actions remain absent
-   because their routes/API/security contracts are outside this slice
-   (`DDR-AUTH-ENTRY-02`).
+1. `DDR-AUTH-ENTRY-01` is approved and resolved: the official existing IBA PNG
+   replaces the temporary primary mark, with byte integrity documented in
+   `assets/branding/README.md`.
+2. Create Account, Need help, Forgot PIN, biometric, OTP-first, countdown, and
+   attempt-counter treatments remain omitted/deferred under the approved
+   unsupported-action decision (`DDR-AUTH-ENTRY-02`).
 3. The exact `+93` plus national-number field composition is not shown as one
    editable value. The accepted backend contract requires the unchanged
    ten-digit local value, so the screen uses a non-interactive country indicator
@@ -57,10 +57,14 @@
 
 ## Final visual decision
 
-**Blocked by missing approved asset.**
+**Accept with documented deviation.**
 
-The measured layout, shared components, responsive behavior, RTL, and
-accessibility corrections are implementation-ready and materially closer to
-the approved reference. The flow is not marked visually accepted because the
-brand asset and product/design approval for the recorded contract-driven
-deviations remain outstanding.
+The branding region is resolved with the approved byte-preserved asset, and
+the four matching-viewport screenshots confirm unchanged composition, scale,
+clear space, light-surface contrast, and RTL balance. The implemented mobile
+and six-digit PIN regions are visually accepted with approved
+`DDR-AUTH-ENTRY-02`, `DDR-AUTH-ENTRY-03`, and `DDR-AUTH-ENTRY-04`. Composite
+splash/language/biometric regions remain deferred and are not claimed as
+implemented. Android TalkBack runtime and Dari/Pashto linguistic review remain
+open, accurately reported limitations; automated semantics, RTL, and 200%
+coverage pass.

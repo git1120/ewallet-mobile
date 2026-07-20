@@ -69,12 +69,13 @@ events collapse to one cleanup/navigation event.
 **Exit:** every implemented region has an exact reference/viewport and no
 unapproved deviation; language review complete; widget/visual review passes.
 
-**Status:** safe regions implemented and measured at 412×915. The mobile/PIN
-geometry, shared field/keypad variants, supported actions, loading/error
-stability, RTL, 200% reflow, and four clean EN/FA screenshots passed this
-implementation review. Composite status remains `in-progress`; the final visual
-decision is `Blocked by missing approved asset`, with deviation and linguistic
-approval still external.
+**Status:** implemented mobile/PIN regions are measured and visually validated
+at 412×915. The approved byte-preserved IBA logo now renders through shared
+`IbaBrandMark`; geometry, shared field/keypad variants, supported actions,
+loading/error stability, RTL, 200% reflow, and four clean EN/FA screenshots
+pass. Final decision: **Accept with documented deviation** under approved
+`DDR-AUTH-ENTRY-02/03/04`. Composite splash/language/biometric regions remain
+deferred; linguistic approval remains external.
 
 ## Phase E — Validation
 

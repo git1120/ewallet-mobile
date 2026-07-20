@@ -27,8 +27,9 @@
 
 ## Recorded differences
 
-1. No repository brand-mark asset exists. A token-colored decorative
-   security/bank mark is temporary.
+1. The approved IBA logo is copied byte-for-byte under `assets/branding/` and
+   used in the mobile primary brand region through shared `IbaBrandMark`. The
+   PIN shield remains a separate decorative security cue.
 2. Create Account, Need help, Forgot PIN, and biometric controls are omitted
    because no first-slice route/security contract exists.
 3. Mobile accepts the backend-authoritative ten digits without implicit `+93`.
@@ -54,14 +55,19 @@
   ID. There was no CORS error or credential/body/token/authorization log. The
   one rendering exception was corrected and covered by automated gates; the
   authorized account was not signed in a second time merely to repeat it.
-- Chrome development runtime and hot reload passed without another live login.
+- The branding integration smoke launched Chrome with the development proxy,
+  loaded the approved asset without a missing-asset exception, and hot reloaded
+  in 172 ms. A retained authorized test session produced sanitized successful
+  authentication/confirmation traffic; no credential, identifier, body, or
+  token value appeared in logs.
 - Android TalkBack and language-owner review remain pending. The installed
   Pixel 2/API 28 emulator did not attach, and Flutter doctor reports missing
   Android command-line tools and unknown license status.
 
-The measured correction pass closes the material field, spacing, keypad,
-navigation, and action-placement drift identified by independent review.
-`comparison/notes.md` records the category decisions. The final visual decision
-is **Blocked by missing approved asset** because the brand mark and the
-contract-driven deviations still require external approval; the reference
-therefore stays `in-progress`.
+The measured correction pass closes the material branding, field, spacing,
+keypad, navigation, and action-placement drift identified by independent
+review. `comparison/notes.md` records the category decisions. The final visual
+decision is **Accept with documented deviation** for the implemented mobile and
+PIN regions. The unsupported-action, backend-compatible mobile presentation,
+and security masking deviations are user-approved; composite deferred regions
+are not claimed as implemented.

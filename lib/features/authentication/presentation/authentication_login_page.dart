@@ -152,11 +152,10 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
       child: Column(
         children: [
           const SizedBox(height: 128),
-          const _SecurityMark(
-            icon: Icons.verified_user_outlined,
-            size: 88,
-            color: IbaColors.gold,
-            backgroundColor: IbaColors.surface,
+          IbaBrandMark(
+            key: const ValueKey('auth-primary-brand-mark'),
+            semanticLabel: l10n.appName,
+            width: 88,
           ),
           const SizedBox(height: IbaSpacing.lg),
           Text(
@@ -230,7 +229,10 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
               onPressed: state.isSubmitting ? null : _changeMobile,
             ),
           ),
-          const _SecurityMark(icon: Icons.shield_outlined, size: 56),
+          const IbaBrandMark.securityFallback(
+            key: ValueKey('auth-security-mark'),
+            width: 56,
+          ),
           const SizedBox(height: IbaSpacing.xl),
           Text(
             l10n.authPinScreenTitle,
@@ -302,7 +304,10 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
       child: Column(
         children: [
           const SizedBox(height: IbaSpacing.xxl),
-          const _SecurityMark(icon: Icons.lock_outline, color: IbaColors.error),
+          const IbaBrandMark.securityFallback(
+            fallbackIcon: Icons.lock_outline,
+            fallbackColor: IbaColors.error,
+          ),
           const SizedBox(height: IbaSpacing.lg),
           Text(
             l10n.authAccountTemporarilyLockedTitle,
@@ -332,32 +337,4 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
   IconData get _backIcon => Directionality.of(context) == TextDirection.rtl
       ? Icons.arrow_forward
       : Icons.arrow_back;
-}
-
-class _SecurityMark extends StatelessWidget {
-  const _SecurityMark({
-    required this.icon,
-    this.color = IbaColors.green,
-    this.backgroundColor = IbaColors.greenSoft,
-    this.size = 72,
-  });
-
-  final IconData icon;
-  final Color color;
-  final Color backgroundColor;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => ExcludeSemantics(
-    child: Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        shape: BoxShape.circle,
-        border: Border.all(color: IbaColors.outline),
-      ),
-      child: Icon(icon, color: color, size: size * 0.44),
-    ),
-  );
 }

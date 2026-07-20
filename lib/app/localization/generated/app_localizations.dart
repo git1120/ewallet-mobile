@@ -148,6 +148,12 @@ abstract class AppLocalizations {
   /// **'Text size'**
   String get textSize;
 
+  /// No description provided for @branding.
+  ///
+  /// In en, this message translates to:
+  /// **'Branding'**
+  String get branding;
+
   /// No description provided for @normal.
   ///
   /// In en, this message translates to:

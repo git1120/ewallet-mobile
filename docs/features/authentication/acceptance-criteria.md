@@ -74,12 +74,18 @@ acceptance remain open and are not claimed by the automated implementation.
       placement, focus treatment, RTL mixed direction, and 200% reflow.
 - [x] Clean EN/LTR and FA/RTL mobile/PIN screenshots exist under the governed
       artifact path and contain no entered PIN or unmasked mobile value.
-- [ ] Approved brand artwork is available and mapped.
-- [ ] Product/design has approved the unsupported-action, exact country-prefix,
+- [x] Approved brand artwork is copied byte-for-byte, mapped through shared
+      `IbaBrandMark`, and hash-verified against its admin-panel sources.
+- [x] Product/design has approved the unsupported-action, exact country-prefix,
       and privacy-masking deviation records.
 - [ ] Android TalkBack runtime passes; current local Android tooling cannot
       attach the installed emulator.
 - [ ] Language owners approve current Dari/Pashto wording.
+
+Final matching-viewport decision for the implemented mobile/PIN regions:
+**Accept with documented deviation**. Android TalkBack runtime and linguistic
+review remain open; the accepted visual status does not claim either result or
+the deferred composite-board regions.
 
 ## Verification and governance
 

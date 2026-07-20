@@ -33,6 +33,9 @@ class AppLocalizationsPs extends AppLocalizations {
   String get textSize => 'د متن کچه';
 
   @override
+  String get branding => 'سوداګریز نښان';
+
+  @override
   String get normal => 'عادي';
 
   @override

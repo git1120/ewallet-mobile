@@ -15,6 +15,15 @@ semantics, icon-plus-text status cues, flexible text, and reduced-motion
 checks. The gallery displays all initial components and important UI states,
 with live English/Dari/Pashto and 100%/200% text controls.
 
+`IbaBrandMark` is the single branding renderer. Its standard variant uses
+`assets/branding/iba-logo.png` on light surfaces, its white-backed variant uses
+`assets/branding/iba-logo-white.png` on dark or institutional-green surfaces,
+and its geometric fallback is allowed only for an explicit separate security
+or reassurance concept. PNGs use `BoxFit.contain`, are never recolored at
+runtime, and expose brand semantics unless explicitly decorative. The gallery
+demonstrates standard/compact, light/dark, fallback, semantic, and decorative
+usage. Asset provenance and integrity are in `assets/branding/README.md`.
+
 New widgets should consume tokens and theme values. Avoid raw color, padding,
 radius, animation duration, and text-style values in feature code.
 

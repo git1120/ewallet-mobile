@@ -25,11 +25,11 @@ replace reference-specific geometry.
 | Viewport / orientation / locale / direction | Compact portrait; EN/LTR board. Required adaptations: en/LTR, fa/RTL, ps/RTL. |
 | Entry condition | Bootstrap concluded unauthenticated, or user chose change number. |
 | Exit conditions | Valid Continue → PIN entry; Create Account and Need help remain unavailable until their contracts exist. |
-| Primary / secondary actions | Continue. Visible Create Account and Need help are reference actions, but must be hidden or disabled only after a product-approved deviation; this unresolved decision is `AUTH-GAP-04`. Language action remains visible only if the surrounding flow includes it. |
+| Primary / secondary actions | Continue. Visible Create Account and Need help are omitted/deferred under approved `DDR-AUTH-ENTRY-02` and `AUTH-GAP-04`; no dead or disabled lookalike is shown. Language action remains visible only if the surrounding flow includes it. |
 | Fixed / scrollable elements | Safe-area top actions and bottom privacy reassurance follow the board; content scrolls/reflows when keyboard, translation, or 200% text requires it. Primary action remains reachable, never obscured. |
-| Components | Brand mark/illustration asset (asset mapping gap), localized text, phone input, `IbaButton`, optional `IbaTextButton`, security reassurance. |
+| Components | Approved standard PNG through shared `IbaBrandMark`, localized text, phone input, `IbaButton`, optional `IbaTextButton`, security reassurance. Asset provenance and hashes are recorded in `assets/branding/README.md`. |
 | Typography / spacing / radii | Preserve centered mark/title/subtitle hierarchy, full-width field and button, generous vertical grouping, rounded field/button, and smaller reassurance-container radius relationship. Use repository semantic tokens only after measured mapping. |
-| Icon behavior | Back and language icons are directional/semantic controls; flag/country selector is not permission to accept arbitrary country identifiers. Decorative brand art is excluded from semantics. |
+| Icon behavior | Back and language icons are directional/semantic controls; flag/country selector is not permission to accept arbitrary country identifiers. The official identity mark exposes the localized app name; the separate PIN security fallback is decorative and excluded. |
 | Keyboard behavior | Phone keyboard; no autofocus on entry unless product/accessibility review accepts it. Next/submit invokes the same single guarded Continue action. Phone remains visible above keyboard. |
 | Loading / validation / error / disabled | Default has no error. Local empty/format errors are inline and announced. While advancing, button may show the approved loading state and duplicate actions are disabled. Backend credential errors belong to PIN state, not the phone field. |
 | Session / responsive behavior | No token/storage mutation. On wide web validation target, constrain the portrait composition rather than expanding/reordering it. |
@@ -61,8 +61,8 @@ replace reference-specific geometry.
 | Surface / feature / screen / state | Customer / authentication / PIN login / default, focused, partially entered, locally invalid. |
 | Viewport / orientation / locale / direction | Compact portrait; en/LTR source, required fa/ps RTL. Mobile number is controlled LTR. |
 | Entry / exit | Entered after a locally valid mobile number; six digits trigger or enable guarded submission according to product decision. Success enters authenticated-unverified; change number returns to mobile. |
-| Primary / secondary actions | Numeric entry is primary task. Change number is supported. Forgot PIN and Use Biometric are visible reference actions but unavailable in first slice pending gaps. |
-| Fixed / scrollable elements | Header/security mark, title/subtitle, masked/formatted number, dot row, keypad/action area. Scroll/reflow only as needed for safe areas, keyboard, and text scale. |
+| Primary / secondary actions | Numeric entry is primary task. Change number is supported. Forgot PIN and Use Biometric are omitted/deferred under approved `DDR-AUTH-ENTRY-02`; they are not shown as enabled or disabled capabilities. |
+| Fixed / scrollable elements | Header/security mark, title/subtitle, security-required masked/formatted number under approved `DDR-AUTH-ENTRY-04`, dot row, keypad/action area. Scroll/reflow only as needed for safe areas, keyboard, and text scale. |
 | Components | Secure PIN input/keypad must be a shared design-system variation if `IbaPinField` cannot reproduce the board; no feature-local fork. |
 | Typography / spacing / radii | Preserve centered title, number emphasis, evenly spaced six indicators, three-column keypad rhythm, and bottom biometric panel relationship. |
 | Icon behavior | Back/change icons direction-aware; delete removes one digit; biometric icon/action is not active in first slice. PIN visibility must remain obscured by default. |

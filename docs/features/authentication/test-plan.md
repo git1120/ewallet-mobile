@@ -42,6 +42,35 @@ TalkBack smoke remain manual Phase E evidence.
   Flutter doctor reports missing Android command-line tools and unknown license
   status.
 
+## Approved branding evidence — 20 July 2026
+
+- Source/copy SHA-256 pairs match for both approved PNG assets; dimensions,
+  alpha, padding, file sizes, and usage are recorded in
+  `assets/branding/README.md`.
+- Component tests cover the standard and white-backed variants,
+  aspect-ratio-preserving containment, identity semantics, and decorative
+  exclusion. Authentication widget coverage asserts shared standard branding
+  and absence of the former temporary primary icon.
+- The existing 360×800 and 412×915, EN/LTR, FA/RTL, PS/RTL, 200% text, and
+  no-overflow coverage remains green after integration.
+- All four 412×915 implementation PNGs were regenerated after preloading the
+  approved asset and contain no entered mobile value, PIN, token, developer
+  tool, or account/session identifier.
+- Final visual decision for the implemented mobile/PIN regions is **Accept with
+  documented deviation**. Android TalkBack runtime and language-owner review
+  remain open.
+- A current Chrome development launch loaded `web_dev_config.yaml`, rendered
+  without a missing-asset or overflow exception, and hot reloaded in 172 ms.
+  The retained authorized test session exercised sanitized login/confirmation
+  and refresh/confirmation traffic; logs contained method, path, status, and
+  trace ID only, with no credential, mobile number, token, body, or account/
+  session identifier.
+- The available SDK is Flutter 3.41.9 / Dart 3.11.5, not the repository pin
+  Flutter 3.38.3 / Dart 3.10.1. Both quality-gate modes therefore stop at their
+  intentional pin check. The equivalent format, rule validation, analyzer,
+  full tests, screenshot capture, and direct web build pass individually on
+  the available SDK; this does not claim pinned-SDK validation.
+
 ## Chrome and proxy runtime evidence — 19 July 2026
 
 Chrome 150 launched with only `APP_ENV=development`; Flutter loaded

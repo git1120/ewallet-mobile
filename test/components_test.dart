@@ -5,6 +5,52 @@ import 'package:iba_ewallet/design_system/design_system.dart';
 import 'test_helpers.dart';
 
 void main() {
+  testWidgets('brand mark renders approved standard and white assets', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      testApp(
+        const Column(
+          children: [
+            IbaBrandMark(semanticLabel: 'IBA E-Wallet'),
+            IbaBrandMark(
+              variant: IbaBrandMarkVariant.white,
+              semanticLabel: 'IBA E-Wallet white',
+            ),
+          ],
+        ),
+      ),
+    );
+
+    final images = tester.widgetList<Image>(find.byType(Image)).toList();
+    expect(
+      (images[0].image as AssetImage).assetName,
+      IbaBrandMark.standardAsset,
+    );
+    expect((images[1].image as AssetImage).assetName, IbaBrandMark.whiteAsset);
+    expect(images.every((image) => image.fit == BoxFit.contain), isTrue);
+  });
+
+  testWidgets('brand mark preserves aspect ratio and semantic intent', (
+    tester,
+  ) async {
+    final semantics = tester.ensureSemantics();
+    await tester.pumpWidget(
+      testApp(const IbaBrandMark(semanticLabel: 'IBA E-Wallet', width: 146.3)),
+    );
+    await tester.pumpAndSettle();
+
+    final size = tester.getSize(find.byType(Image));
+    expect(size.width / size.height, closeTo(1463 / 1447, 0.01));
+    expect(find.bySemanticsLabel('IBA E-Wallet'), findsOneWidget);
+
+    await tester.pumpWidget(
+      testApp(const IbaBrandMark(width: 56, decorative: true)),
+    );
+    expect(find.bySemanticsLabel('IBA E-Wallet'), findsNothing);
+    semantics.dispose();
+  });
+
   testWidgets('button handles tap, loading, disabled, and touch size', (
     tester,
   ) async {

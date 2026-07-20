@@ -28,6 +28,9 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+  assets:
+    - assets/branding/iba-logo.png
+    - assets/branding/iba-logo-white.png
   fonts:
     - family: Inter
       fonts:

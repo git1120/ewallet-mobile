@@ -15,9 +15,9 @@
   mapping because the composite phone mockup is narrower than the Android
   target. Platform font rasterization and system chrome are not treated as
   layout drift.
-- Current implementation geometry was calculated from the widget constraints
-  and semantic tokens before this correction pass. A clean current login
-  screenshot did not yet exist.
+- The original geometry column records the pre-correction baseline. The final
+  reassessment uses the four clean 412×915 EN/LTR and FA/RTL screenshots in
+  `implementation/`.
 
 ## Region audit
 
@@ -25,7 +25,7 @@
 |---|---|---|---|---|---|---|---|
 | Page background | Full phone; near-white surface | Full viewport `IbaColors.background` (`#F7F6F1`) | Slightly warmer than the phone surface | `Scaffold`, theme | Retain semantic background unless screenshot comparison proves material color drift | Contrast and theme consistency | Pending screenshot |
 | Top controls | Mobile: 40×40 back at source-relative `(16,57)` and language at `(254,57)`; PIN: 40×40 back at `(16,57)` | Mobile has none; PIN has one 48×48 back at content y=16 | Mobile controls absent; PIN is too high and uses a physical back arrow | `IbaIconButton`, screen composition | Keep unsupported root back/language actions omitted and reserve approved header space; use direction-aware back on PIN | No dead or misleading action; 48×48 target | Deviation required / correction planned |
-| Header / brand / security mark | Mobile gold brand mark about 78×86 source px, centered around source-relative y=125–211; PIN green shield circle about 52×58 at y=96–154 | Both are temporary 72×72 circles; mobile uses bank icon; PIN begins immediately after back | Wrong asset, mark type, size, and vertical placement | `_SecurityMark` | Retain an honest primitive temporary mark, use reference-proportional sizes and positions, do not fabricate the IBA logo | Decorative semantics excluded; protected brand must not be invented | Blocked by missing approved asset |
+| Header / brand / security mark | Mobile gold brand mark about 78×86 source px, centered around source-relative y=125–211; PIN green shield circle about 52×58 at y=96–154 | Mobile now uses the byte-preserved approved IBA seal at 88px through `IbaBrandMark`; PIN retains a separate 56px security shield through the explicit fallback variant | The approved official seal replaces the temporary primary mark while preserving its measured box and clear space; the PIN cue remains non-redundant security meaning | `IbaBrandMark` | No further branding correction required | Brand label is semantic on mobile; the separate decorative security cue is excluded | Approved and resolved |
 | Title and supporting copy | Mobile title center near target y≈268, subtitle y≈322; PIN title y≈204, instruction y≈249 | Mobile title begins near y≈144; PIN title near y≈152 | Both groups are substantially too high | Screen composition, theme text | Introduce measured header/hero spacing while preserving text reflow | 200% text may reflow/scroll | Correction planned |
 | Mobile-number presentation | Label and field target y≈378–458; field spans about 370 logical px with 12px radius | Label/field begins around y≈236; content width 364; generic floating-label field | About 140px too high; generic treatment | `IbaPhoneField`, `IbaTextField` | Add a reusable country/mobile presentation and match height, border, focus, and radius without a local fork | Exact ten-digit controller value; controlled LTR; associated errors | Correction planned |
 | Country code / flag treatment | Afghanistan indicator, selector chevron, separator, `+93`, and grouped national number | No country indicator or prefix | Entire visible treatment absent | `IbaPhoneField` | Add a non-interactive Afghanistan indicator to the reusable field; do not imply unsupported country switching. Keep backend-authoritative ten-digit input and document why `+93` cannot be paired with an unchanged leading zero as if it were one number | No fabricated selector; serialization remains exactly ten digits | Contract-limited correction |
@@ -47,26 +47,29 @@
 
 ## Design Deviation Records
 
-### DDR-AUTH-ENTRY-01 — Missing approved brand mark
+### DDR-AUTH-ENTRY-01 — Approved brand assets
 
 - Reference / path / region: `flow-auth-entry-v1`; third-phone brand mark.
 - Approved behavior: centered gold IBA security/brand artwork.
-- Closest safe implementation: a decorative token-colored geometric security
-  mark built from standard Flutter iconography.
-- Reason: the repository contains only font assets and no approved brand-mark
-  image or vector. Reconstructing the visible protected logo would create an
-  unofficial brand asset.
-- Impact: recognizable composition and approximate size/position can match,
-  but exact silhouette and color detail cannot.
-- Alternatives considered: reuse repository asset (none); draw the logo
-  (rejected as unofficial); remove all mark geometry (larger visual drift).
-- Permanence: temporary until an approved asset is supplied.
-- Approver / status: product/brand owner; **approval pending**.
+- Resolution: use the existing approved IBA PNG assets copied byte-for-byte
+  from `web/public/images/iba-logo.png` and `web/public/images/logo_white.png`
+  into `assets/branding/`.
+- Implementation: `IbaBrandMark` renders the standard asset in the primary
+  light-surface authentication brand region without runtime recoloring,
+  cropping, distortion, or an admin-panel runtime dependency. The white-backed
+  variant is reserved for dark/green surfaces.
+- Integrity: copied SHA-256 values match their sources and are recorded in
+  `assets/branding/README.md`.
+- Fallback: the geometric mark remains permitted only for an explicitly
+  separate security/reassurance concept, such as the PIN shield.
+- Approver / status: user acting as product/brand authority; **Approved and
+  resolved** on 20 July 2026.
 
 ### DDR-AUTH-ENTRY-02 — Unsupported reference actions
 
 - Reference / regions: mobile Create Account / Need help / root controls; PIN
-  Forgot PIN / Use Biometric.
+  Forgot PIN / Use Biometric; supporting-board OTP-first, countdown, and
+  attempt-counter treatments.
 - Approved behavior: visible interactive actions.
 - Closest safe implementation: omit unsupported actions and preserve the
   remaining approved spacing/hierarchy; keep supported Change number.
@@ -75,8 +78,14 @@
 - Alternatives considered: active controls (unsupported and misleading);
   disabled controls (still suggests unavailable product capability); inert
   lookalikes (misleading and inaccessible).
-- Permanence: temporary until separately scoped contracts and routes exist.
-- Approver / status: product/design; **approval pending** (`AUTH-GAP-03/04`).
+- Exact decisions: signup, help, forgot PIN, and biometric are **omitted** and
+  **deferred** to separately contracted flows; OTP-first is **omitted** and
+  covered by a separate future login contract; countdown and attempt counter
+  are **omitted** until authoritative backend values and a future contract
+  exist. None is visually represented as enabled or disabled in this slice.
+- Permanence: deferred until those separate contracts and routes exist.
+- Approver / status: user acting as product/design authority; **approved** on
+  20 July 2026 (`AUTH-GAP-03/04/05/10`).
 
 ### DDR-AUTH-ENTRY-03 — Mobile country-code display
 
@@ -95,8 +104,9 @@
   violation); show `+93 07…` as one number (misleading); omit all treatment
   (larger visual drift).
 - Permanence: until product/backend approves exact normalization examples.
-- Approver / status: product/backend/design; **approval pending**
-  (`AUTH-GAP-01` first-slice limitation).
+- Approver / status: user acting as product/backend/design authority;
+  **approved** on 20 July 2026 (`AUTH-GAP-01` first-slice limitation). This
+  backend-compatible presentation must not be reinterpreted by later agents.
 
 ### DDR-AUTH-ENTRY-04 — PIN mobile-number masking
 
@@ -110,12 +120,30 @@
 - Alternatives considered: full number (privacy conflict); omit number
   (greater visual/context loss).
 - Permanence: security requirement unless privacy review changes.
-- Approver / status: security/product/design; **approval pending**.
+- Approver / status: user acting as security/product/design authority;
+  **approved** on 20 July 2026. This masking requirement must not be
+  reinterpreted by later agents.
 
-## Pre-implementation decision
+## Post-integration reassessment
 
-Proceed only with regions that can be corrected without assuming approval:
-geometry, spacing, shared field/keypad fidelity, supported action placement,
-loading/error stability, responsive behavior, RTL, and accessibility. Preserve
-the closest safe appearance for pending deviations and do not mark the
-reference accepted.
+- Logo geometry and scale: the standard seal occupies the existing 88px
+  aspect-ratio-preserving brand box and remains visually legible at 412×915.
+- Clear space and header balance: the measured 128px hero lead-in, 24px gap to
+  title, and surrounding whitespace remain unchanged; no title, field, or
+  reassurance landmark moved materially.
+- Relationship of marks: mobile has one official identity mark; PIN has one
+  separate security shield. They are never shown redundantly on one screen.
+- Contrast: the standard green seal is clear on the light authentication
+  surface. The white-backed variant is gallery-verified on institutional green
+  and is not needed on these light screens.
+- Narrow/RTL: 360×800 reflow remains scroll-safe. FA/RTL screenshot evidence
+  keeps the centered logo and mirrors directional controls; PS/RTL follows the
+  same tested layout.
+- Accessibility: identity use exposes the localized app name; decorative
+  fallback use is excluded. Automated 200% text and no-overflow coverage
+  remains green.
+
+The missing-asset blocker is closed. The implemented mobile and PIN regions are
+accepted with approved `DDR-AUTH-ENTRY-02`, `DDR-AUTH-ENTRY-03`, and
+`DDR-AUTH-ENTRY-04`; Android TalkBack runtime and language-owner review remain
+reported limitations rather than new visual blockers.

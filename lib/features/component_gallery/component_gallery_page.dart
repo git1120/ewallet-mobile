@@ -34,6 +34,31 @@ class ComponentGalleryPage extends StatelessWidget {
             onLargeTextChanged: onLargeTextChanged,
           ),
           _Section(
+            title: l10n.branding,
+            children: [
+              Wrap(
+                spacing: IbaSpacing.lg,
+                runSpacing: IbaSpacing.lg,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  IbaBrandMark(semanticLabel: l10n.appName),
+                  IbaBrandMark(semanticLabel: l10n.appName, width: 56),
+                  const IbaBrandMark(width: 56, decorative: true),
+                  const IbaBrandMark.securityFallback(width: 56),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsetsDirectional.all(IbaSpacing.lg),
+                color: IbaColors.green,
+                alignment: Alignment.center,
+                child: IbaBrandMark(
+                  variant: IbaBrandMarkVariant.white,
+                  semanticLabel: l10n.appName,
+                ),
+              ),
+            ],
+          ),
+          _Section(
             title: l10n.buttons,
             children: [
               IbaButton(

@@ -113,3 +113,9 @@ viewport, then ends with equivalent-viewport review and a
 [visual checklist](design-references/visual-review-checklist.md). Unavoidable
 differences follow the documented design-deviation process; personal redesign
 is never an implementation option.
+
+Approved IBA logo PNGs are copied byte-for-byte from the admin-panel assets
+into `assets/branding/` and rendered only through shared `IbaBrandMark`. Their
+source paths, hashes, light/dark usage, and no-modification rules are recorded
+in `assets/branding/README.md`; the mobile app has no runtime dependency on the
+admin-panel working copy.

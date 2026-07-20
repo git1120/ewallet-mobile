@@ -5,8 +5,10 @@ the decision; it does not imply backend work is authorized in this repository.
 
 ## AUTH-GAP-01 — Login identifier (resolved)
 
-**Implementation update (19 July 2026):** closed for the first slice. Flutter
-serializes exactly ten ASCII digits; no implicit `+93` conversion is made.
+**Approval update (20 July 2026):** closed for the first slice. The user
+approved the backend-compatible presentation in `DDR-AUTH-ENTRY-03`. Flutter
+serializes exactly ten ASCII digits; no implicit `+93` conversion is made, and
+later agents may not reinterpret this approval.
 
 - **Category / desired behavior:** API; serialize the exact supported login
   identity.
@@ -25,9 +27,9 @@ serializes exactly ten ASCII digits; no implicit `+93` conversion is made.
 
 ## AUTH-GAP-02 — PIN-length visual conflict
 
-**Implementation update (19 July 2026):** resolved for this slice by the
-explicit six-digit task direction. Four-digit and OTP-first regions remain
-deferred.
+**Approval update (20 July 2026):** resolved for this slice by the explicit
+six-digit task direction and approved unsupported-action decision. Four-digit
+and OTP-first regions remain omitted/deferred to a separate future contract.
 
 - **Category / desired behavior:** visual/API; one authoritative login PIN
   length.
@@ -36,12 +38,16 @@ deferred.
 - **Missing decision:** written confirmation that first-slice authority is the
   six-digit entry board and conflicting four-digit regions are excluded.
 - **Impact:** four digits cannot authenticate; merging boards would redesign.
-- **Temporary / blocking:** use six-digit contracts only; **blocks Phase D**
-  until product/design acknowledges the conflict resolution.
-- **Owner / resolution:** product/design; annotate design decision without
-  modifying either approved image.
+- **Temporary / blocking:** use six-digit contracts only; no longer blocks the
+  implemented mobile/PIN visual decision.
+- **Owner / resolution:** user/product/design approved the conflict resolution
+  without modifying either approved image.
 
 ## AUTH-GAP-03 — Biometric login
+
+**Decision update (20 July 2026):** biometric presentation is omitted and
+deferred under approved `DDR-AUTH-ENTRY-02`; it is not represented as an active
+or disabled capability in this slice.
 
 - **Category / desired behavior:** security/platform; secure local biometric
   unlock with PIN fallback.
@@ -58,32 +64,35 @@ deferred.
 
 ## AUTH-GAP-04 — Forgot PIN, signup, and help actions
 
-**Implementation update (19 July 2026):** unsupported actions are omitted, not
-tappable or presented as available. Product visual sign-off remains open.
+**Decision update (20 July 2026):** signup, help, and forgot PIN are omitted and
+deferred under user-approved `DDR-AUTH-ENTRY-02`; none is represented as active
+or disabled in this slice.
 
 - **Category / desired behavior:** product/navigation/API; visible actions lead
   somewhere valid.
 - **Reference / backend / Flutter:** auth boards show all three; login backend
   has no recovery route; signup is separate; no support route exists in mobile.
-- **Missing:** first-slice visibility/disabled behavior and approved deviation.
+- **Decision:** omit rather than visually disable; future presentation requires
+  separately supported routes/contracts.
 - **Impact:** dead controls are inaccessible and misleading.
-- **Temporary / blocking:** do not expose tappable dead actions; **blocks Phase
-  D** until product approves omission/disabled presentation or supplies scope.
-- **Owner / resolution:** product/design; approve a deviation tied to exact
-  regions.
+- **Temporary / blocking:** do not expose tappable dead actions; the omission
+  no longer blocks the implemented mobile/PIN visual decision.
+- **Owner / resolution:** user/product/design approved the exact omission;
+  future functionality remains separately scoped.
 
 ## AUTH-GAP-05 — Lock countdown and remaining attempts
 
-**Implementation update (19 July 2026):** the locked state contains neither a
-countdown nor an attempt count. Exact board fidelity remains open.
+**Decision update (20 July 2026):** the locked state contains neither a
+countdown nor an attempt count. Their omission/deferment is user-approved under
+`DDR-AUTH-ENTRY-02` until the backend supplies authoritative values.
 
 - **Category / desired behavior:** API/UX; accurate attempts and unlock time.
 - **Reference / backend / Flutter:** recovery board shows `14:59`; backend
   defaults to 3/5m but returns neither attempts nor `lockedUntil`.
 - **Missing:** response fields and stable semantics; no Flutter implementation.
 - **Impact:** hardcoded countdown can be wrong and disclose policy.
-- **Temporary / blocking:** calm “try later” with no number/countdown;
-  **blocking only for exact locked-screen fidelity** and needs deviation.
+- **Temporary / blocking:** calm “try later” with no number/countdown; approved
+  for this slice and covered by a separate future contract if data is added.
 - **Owner / resolution:** backend/product/security; return safe authoritative
   retry metadata if desired, otherwise revise approved visual state.
 
@@ -140,6 +149,10 @@ countdown nor an attempt count. Exact board fidelity remains open.
   HttpOnly cookie architecture where feasible.
 
 ## AUTH-GAP-10 — OTP login
+
+**Decision update (20 July 2026):** OTP-first login is omitted and deferred
+under approved `DDR-AUTH-ENTRY-02`; it is covered by a separate future contract
+and does not alter the six-digit PIN flow.
 
 - **Category / desired behavior:** API/product; OTP-first login shown visually.
 - **Reference / backend / Flutter:** signup foundation shows Send/Verify OTP;
