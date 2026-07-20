@@ -174,7 +174,7 @@ void main() {
         fixture.controller.continueToPin();
         final first = fixture.controller.login(
           mobileNumber: '0700000000',
-          pin: '123456',
+          pin: '246810',
         );
         final duplicate = fixture.controller.login(
           mobileNumber: '0700000000',
@@ -201,7 +201,7 @@ void main() {
 
         final login = fixture.controller.login(
           mobileNumber: '0700000000',
-          pin: '123456',
+          pin: '246810',
         );
         while (fixture.controller.state.session !=
             SessionStatus.authenticatedUnconfirmed) {
@@ -220,6 +220,48 @@ void main() {
     );
 
     test(
+      'controller disposal cancels in-flight session confirmation',
+      () async {
+        final fixture = build();
+        await fixture.controller.restore();
+        fixture.controller.continueToPin();
+        final confirmation = Completer<bool>();
+        fixture.repository.confirmationCompleter = confirmation;
+
+        final login = fixture.controller.login(
+          mobileNumber: '0700000000',
+          pin: '246810',
+        );
+        while (fixture.repository.confirmationCancelToken == null) {
+          await Future<void>.delayed(Duration.zero);
+        }
+
+        fixture.controller.dispose();
+        expect(fixture.repository.confirmationCancelToken!.isCancelled, isTrue);
+        confirmation.complete(false);
+        await login;
+      },
+    );
+
+    test('generic forbidden login is a terminal restriction', () async {
+      final fixture = build();
+      await fixture.controller.restore();
+      fixture.controller.continueToPin();
+      fixture.repository.loginFailure = const AppFailure(
+        kind: FailureKind.accountRestriction,
+        messageKey: 'accountRestricted',
+        code: 'FORBIDDEN',
+      );
+
+      await fixture.controller.login(mobileNumber: '0700000000', pin: '246810');
+
+      expect(fixture.controller.state.session, SessionStatus.terminal);
+      expect(fixture.controller.state.restriction, AccountRestriction.other);
+      expect(fixture.store.values, isEmpty);
+      expect(fixture.tokens.accessToken, isNull);
+    });
+
+    test(
       'invalid credentials, offline, and restrictions map precisely',
       () async {
         final fixture = build();
@@ -232,7 +274,7 @@ void main() {
         );
         await fixture.controller.login(
           mobileNumber: '0700000000',
-          pin: '123456',
+          pin: '246810',
         );
         expect(
           fixture.controller.state.loginStage,
@@ -245,7 +287,7 @@ void main() {
         );
         await fixture.controller.login(
           mobileNumber: '0700000000',
-          pin: '123456',
+          pin: '246810',
         );
         expect(
           fixture.controller.state.request,
@@ -259,7 +301,7 @@ void main() {
         );
         await fixture.controller.login(
           mobileNumber: '0700000000',
-          pin: '123456',
+          pin: '246810',
         );
         expect(fixture.controller.state.session, SessionStatus.terminal);
         expect(
@@ -278,7 +320,7 @@ void main() {
         messageKey: 'accountLocked',
         code: 'PIN_LOCKED',
       );
-      await fixture.controller.login(mobileNumber: '0700000000', pin: '123456');
+      await fixture.controller.login(mobileNumber: '0700000000', pin: '246810');
       expect(fixture.controller.state.loginStage, LoginStage.temporarilyLocked);
       expect(fixture.controller.state.session, SessionStatus.unauthenticated);
     });
@@ -305,7 +347,7 @@ void main() {
       final fixture = build();
       await fixture.controller.restore();
       fixture.controller.continueToPin();
-      await fixture.controller.login(mobileNumber: '0700000000', pin: '123456');
+      await fixture.controller.login(mobileNumber: '0700000000', pin: '246810');
       fixture.repository.logoutFailure = Exception('network');
       await fixture.controller.logout();
       expect(fixture.controller.state.session, SessionStatus.unauthenticated);
@@ -328,12 +370,16 @@ final class FakeAuthenticationRepository implements AuthenticationRepository {
   int refreshCalls = 0;
   int logoutCalls = 0;
   String? lastRefreshToken;
+  CancelToken? confirmationCancelToken;
 
   @override
   Future<bool> confirmSession({
     required String sessionId,
     CancelToken? cancelToken,
-  }) async => confirmationCompleter?.future ?? confirmationResult;
+  }) async {
+    confirmationCancelToken = cancelToken;
+    return confirmationCompleter?.future ?? confirmationResult;
+  }
 
   @override
   Future<AuthenticationSession> login({

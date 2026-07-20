@@ -8,9 +8,8 @@
   privacy loss, route exit, restriction, and disposal.
 - Refresh token is the durable credential and is accessed only through
   `SecureStore`. Replace it atomically after every successful rotation.
-- Access token remains in memory. The existing
-  `AuthorizationInterceptor` currently reads `SecretKeys.accessToken` from
-  secure storage; Phase B must align it without bypassing `ApiClient`.
+- Access token remains in memory. `AuthorizationInterceptor` reads the injected
+  memory token source; it never reads an access token from secure storage.
 - If minimal non-secret session metadata must survive launch, document each
   field. User/session/device identifiers are treated as sensitive and do not go
   to `PreferencesStore`.

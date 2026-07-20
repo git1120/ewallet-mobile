@@ -119,8 +119,8 @@ void main() {
 
   test('amount, phone, and account formatting are safe', () {
     expect(IbaFormatters('en').amount(12.5), contains('12.50'));
-    expect(IbaFormatters.phone('0701234567'), '+93 701 234 567');
-    expect(IbaFormatters.maskAccount('1234567890'), '•••• 7890');
+    expect(IbaFormatters.phone('0702468109'), '+93 702 468 109');
+    expect(IbaFormatters.maskAccount('9876543210'), '•••• 3210');
   });
 
   test('logger recursively redacts sensitive fields', () {

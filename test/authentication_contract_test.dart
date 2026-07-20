@@ -81,9 +81,9 @@ void main() {
       expect(
         const LoginRequestDto(
           mobileNumber: '0700000000',
-          pin: '123456',
+          pin: '246810',
         ).toJson(),
-        {'mobileNumber': '0700000000', 'pin': '123456'},
+        {'mobileNumber': '0700000000', 'pin': '246810'},
       );
       expect(const RefreshRequestDto(refreshToken: 'secret').toJson(), {
         'refreshToken': 'secret',
@@ -174,6 +174,7 @@ void main() {
         'USER_SUSPENDED',
         'USER_LOCKED',
         'USER_CLOSED',
+        'FORBIDDEN',
       ]) {
         expect(
           parseFailure(
@@ -254,7 +255,7 @@ void main() {
       'auth',
       fields: {
         'mobileNumber': '0700000000',
-        'pin': '123456',
+        'pin': '246810',
         'token': 'access',
         'refreshToken': 'refresh',
         'Authorization': 'Bearer access',
@@ -263,7 +264,7 @@ void main() {
       },
     );
     expect(output.single, contains('safe-trace'));
-    for (final secret in const ['0700000000', '123456', uuid]) {
+    for (final secret in const ['0700000000', '246810', uuid]) {
       expect(output.single, isNot(contains(secret)));
     }
     expect(output.single, isNot(contains('Bearer access')));

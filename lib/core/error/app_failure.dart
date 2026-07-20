@@ -55,6 +55,7 @@ class AppFailure implements Exception {
       'USER_SUSPENDED': (FailureKind.accountRestriction, 'accountRestricted'),
       'USER_LOCKED': (FailureKind.accountRestriction, 'accountLocked'),
       'USER_CLOSED': (FailureKind.accountRestriction, 'accountClosed'),
+      'FORBIDDEN': (FailureKind.accountRestriction, 'accountRestricted'),
       'VALIDATION_ERROR': (FailureKind.validation, 'validationError'),
       'INVALID_REQUEST': (FailureKind.validation, 'validationError'),
       'RATE_LIMIT_EXCEEDED': (FailureKind.rateLimited, 'serverUnavailable'),

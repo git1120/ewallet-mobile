@@ -10,13 +10,37 @@ Tests are required before/during implementation.
   authorization, optional-header omission, and typed failures.
 - `test/authentication_session_controller_test.dart`: secure persistence,
   rotation concurrency, stale completion, corrupt restore, state transitions,
-  restrictions, and local-first logout.
+  generic and specific restrictions, confirmation cancellation, and local-first
+  logout.
 - `test/authentication_widget_router_test.dart`: mobile/PIN behavior,
   invalid credentials, semantics, EN/FA/PS direction and 200% scale, bootstrap,
-  restored protected routing, logout, and terminal recovery.
+  immediate completed-PIN clearing, restored protected routing, logout, and
+  terminal recovery.
 
 Golden baselines remain deferred. Runtime screenshot comparison and Android
 TalkBack smoke remain manual Phase E evidence.
+
+## Measured visual-fidelity evidence — 20 July 2026
+
+- Added geometry and reachability coverage at 360×800, 390×844, 412×915, and
+  430×932.
+- Added exact 412px directional-side, six-indicator, 11-key, 64px key-height,
+  delete-column, controlled-LTR field, external-label/country-indicator, and
+  single-focus-border assertions.
+- Expanded Dari/Pashto 200% coverage through the PIN state and confirmed the
+  numeric keypad remains stable.
+- Added a normally skipped, opt-in renderer in
+  `test/authentication_visual_capture_test.dart`. It loads repository fonts and
+  icons, uses an in-memory secure-store replacement, and produces the four
+  required 412×915 identifier-safe PNGs only when
+  `CAPTURE_AUTH_VISUALS=true`.
+- Chrome launched with `APP_ENV=development`, loaded `web_dev_config.yaml`, and
+  hot reload completed in 152 ms without a runtime exception or another live
+  login.
+- Android runtime/TalkBack remains blocked in this environment: the installed
+  Pixel 2/API 28 emulator launch returned but no device attached through ADB;
+  Flutter doctor reports missing Android command-line tools and unknown license
+  status.
 
 ## Chrome and proxy runtime evidence — 19 July 2026
 
@@ -49,6 +73,40 @@ the transport boundary, but the localized invalid-credential widget was not
 manually captured. Its automated widget coverage remains the UI evidence.
 Matching-viewport acceptance, runtime FA/PS switching, 200% runtime inspection,
 and Android TalkBack remain pending.
+
+## Independent authorized validation — 20 July 2026
+
+The authorized test account was entered manually once. Sanitized runtime
+evidence showed:
+
+- `POST /api/v1/auth/login` → 200;
+- `GET /api/v1/auth/devices` → 200 and the protected placeholder rendered;
+- browser refresh → one `POST /api/v1/auth/refresh` → 200, then one device
+  confirmation → 200 and the protected placeholder restored;
+- `POST /api/v1/auth/logout` → 200;
+- final browser refresh rendered login and made no refresh request.
+
+Every response trace matched its request trace. The `/api/` proxy produced no
+CORS error. Runtime logs contained no mobile number, PIN, request/response body,
+authorization value, token, or secure-storage content. Raw/fingerprinted token
+values and browser storage were deliberately not inspected. The live refresh
+therefore proves the rotating endpoint was exercised and the replacement
+session was accepted; previous-token non-reuse and atomic local replacement
+remain automated/backend-contract evidence rather than raw live inspection.
+
+A narrow effective browser viewport exposed an authenticated-placeholder
+overflow during logout. Logout still completed with 200. The placeholder was
+made scrollable and a narrow-viewport widget regression was added. A clean
+412×915 identifier-free restored-placeholder screenshot is stored under the
+governed authentication implementation evidence directory. Login pixel
+acceptance and Android TalkBack remain open. The corrected placeholder passed
+the widget and web-build gates but was not exercised in a second live account
+run, because the authorized login sequence was intentionally limited to once.
+
+The required credential grep has no textual source/document/fixture matches
+after correction. Its binary-aware default still reports a byte-pattern match
+inside the bundled Noto font; the same scan with binary files ignored produces
+no output. No font bytes were modified or treated as credential material.
 
 ## DTO and mapper tests
 

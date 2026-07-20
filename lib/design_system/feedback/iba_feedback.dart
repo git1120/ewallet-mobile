@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iba_ewallet/core/theme/tokens.dart';
 import 'package:iba_ewallet/design_system/buttons/iba_buttons.dart';
 
-enum IbaStatus { success, information, warning, error }
+enum IbaStatus { success, information, warning, error, security }
 
 extension on IbaStatus {
   Color color(BuildContext context) => switch (this) {
@@ -10,6 +10,7 @@ extension on IbaStatus {
     IbaStatus.information => IbaColors.information,
     IbaStatus.warning => IbaColors.warning,
     IbaStatus.error => IbaColors.error,
+    IbaStatus.security => IbaColors.green,
   };
 
   IconData get icon => switch (this) {
@@ -17,6 +18,7 @@ extension on IbaStatus {
     IbaStatus.information => Icons.info_outline,
     IbaStatus.warning => Icons.warning_amber_rounded,
     IbaStatus.error => Icons.error_outline,
+    IbaStatus.security => Icons.shield_outlined,
   };
 }
 
@@ -173,20 +175,39 @@ class _IbaMessageState extends StatelessWidget {
 }
 
 class IbaLoadingState extends StatelessWidget {
-  const IbaLoadingState({required this.label, super.key});
+  const IbaLoadingState({required this.label, this.inline = false, super.key});
   final String label;
+  final bool inline;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    liveRegion: true,
-    label: label,
-    child: const Center(
-      child: Padding(
-        padding: EdgeInsetsDirectional.all(IbaSpacing.lg),
-        child: CircularProgressIndicator(),
-      ),
-    ),
-  );
+  Widget build(BuildContext context) {
+    final indicator = SizedBox.square(
+      dimension: inline ? IbaSpacing.lg : IbaSpacing.xxl,
+      child: const CircularProgressIndicator(strokeWidth: 2),
+    );
+    return Semantics(
+      liveRegion: true,
+      label: label,
+      child: inline
+          ? Padding(
+              padding: const EdgeInsetsDirectional.all(IbaSpacing.xs),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  indicator,
+                  const SizedBox(width: IbaSpacing.sm),
+                  Flexible(child: Text(label)),
+                ],
+              ),
+            )
+          : Center(
+              child: Padding(
+                padding: const EdgeInsetsDirectional.all(IbaSpacing.lg),
+                child: indicator,
+              ),
+            ),
+    );
+  }
 }
 
 class IbaSkeleton extends StatefulWidget {

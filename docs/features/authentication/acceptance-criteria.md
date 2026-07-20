@@ -63,6 +63,24 @@ acceptance remain open and are not claimed by the automated implementation.
 - [ ] Reduced motion preserves all state meaning; error/restriction meaning is
       color independent.
 
+### Measured fidelity checkpoint — 20 July 2026
+
+- [x] Mobile/PIN regions were measured against `flow-auth-entry-v1` and audited
+      at 412×915 before implementation.
+- [x] Mobile field/action/reassurance and PIN header/indicators/action/keypad
+      geometry were corrected with shared `Iba*` variations.
+- [x] Layout tests cover 360×800, 390×844, 412×915, and 430×932, equal
+      directional keypad sides, 64px key targets, six indicators, delete
+      placement, focus treatment, RTL mixed direction, and 200% reflow.
+- [x] Clean EN/LTR and FA/RTL mobile/PIN screenshots exist under the governed
+      artifact path and contain no entered PIN or unmasked mobile value.
+- [ ] Approved brand artwork is available and mapped.
+- [ ] Product/design has approved the unsupported-action, exact country-prefix,
+      and privacy-masking deviation records.
+- [ ] Android TalkBack runtime passes; current local Android tooling cannot
+      attach the installed emulator.
+- [ ] Language owners approve current Dari/Pashto wording.
+
 ## Verification and governance
 
 - [ ] DTO/mapper, API/repository, session, router, widget, and security tests in

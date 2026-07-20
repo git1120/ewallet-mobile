@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -19,6 +20,7 @@ import 'package:iba_ewallet/features/authentication/domain/authentication_reposi
 import 'package:iba_ewallet/features/authentication/domain/authentication_session.dart';
 import 'package:iba_ewallet/features/authentication/domain/authentication_state.dart';
 import 'package:iba_ewallet/features/authentication/presentation/authentication_login_page.dart';
+import 'package:iba_ewallet/features/authentication/presentation/authentication_state_pages.dart';
 
 import 'test_helpers.dart';
 
@@ -81,7 +83,7 @@ void main() {
     );
     await tester.enterText(
       find.byKey(const ValueKey('auth-mobile-field')),
-      '070123456',
+      '070246810',
     );
     await tester.testTextInput.receiveAction(TextInputAction.done);
     await tester.pump();
@@ -89,13 +91,126 @@ void main() {
 
     await tester.enterText(
       find.byKey(const ValueKey('auth-mobile-field')),
-      '0701234567',
+      '0702468109',
     );
     await tester.pump();
     await tester.tap(continueButton);
     await tester.pump();
     expect(find.text('Enter your PIN'), findsOneWidget);
     expect(find.byType(IbaPinKeypad), findsOneWidget);
+  });
+
+  testWidgets('mobile entry matches measured 412 layout and controlled LTR', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(412, 915);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final controller = await controllerFor(WidgetRepository(session));
+
+    await tester.pumpWidget(
+      testApp(
+        AuthenticationLoginPage(controller: controller),
+        wrapInScaffold: false,
+      ),
+    );
+    await tester.pump();
+
+    final field = find.byKey(const ValueKey('auth-mobile-field'));
+    final action = find.byKey(const ValueKey('auth-continue'));
+    expect(tester.getTopLeft(field).dx, closeTo(16, 0.1));
+    expect(tester.getSize(field).width, closeTo(380, 0.1));
+    expect(tester.getBottomRight(action).dy, lessThan(915));
+    expect(
+      tester
+          .widget<TextField>(
+            find.descendant(of: field, matching: find.byType(TextField)),
+          )
+          .textDirection,
+      TextDirection.ltr,
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('PIN keypad geometry is centered, accessible, and structured', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(412, 915);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final controller = await controllerFor(WidgetRepository(session));
+    await tester.pumpWidget(
+      testApp(
+        AuthenticationLoginPage(controller: controller),
+        wrapInScaffold: false,
+      ),
+    );
+    await tester.enterText(
+      find.byKey(const ValueKey('auth-mobile-field')),
+      '0702468109',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('auth-continue')));
+    await tester.pump();
+
+    final keypad = find.byKey(const ValueKey('auth-pin-keypad'));
+    final keypadRect = tester.getRect(keypad);
+    expect(keypadRect.left, closeTo(16, 0.1));
+    expect(412 - keypadRect.right, closeTo(16, 0.1));
+    expect(find.byType(AnimatedContainer), findsNWidgets(6));
+    final keys = find.descendant(
+      of: keypad,
+      matching: find.byType(FilledButton),
+    );
+    expect(keys, findsNWidgets(11));
+    for (var index = 0; index < 11; index++) {
+      final size = tester.getSize(keys.at(index));
+      expect(size.width, greaterThanOrEqualTo(48));
+      expect(size.height, 64);
+    }
+    expect(
+      tester.getCenter(find.byIcon(Icons.backspace_outlined)).dx,
+      greaterThan(tester.getCenter(find.text('0')).dx),
+    );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('authentication composition reflows across approved widths', (
+    tester,
+  ) async {
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    for (final size in const [
+      Size(360, 800),
+      Size(390, 844),
+      Size(412, 915),
+      Size(430, 932),
+    ]) {
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+      final controller = await controllerFor(WidgetRepository(session));
+      await tester.pumpWidget(
+        testApp(
+          AuthenticationLoginPage(controller: controller),
+          wrapInScaffold: false,
+        ),
+      );
+      await tester.pump();
+      await tester.ensureVisible(find.byKey(const ValueKey('auth-continue')));
+      expect(tester.takeException(), isNull, reason: '$size mobile');
+
+      await tester.enterText(
+        find.byKey(const ValueKey('auth-mobile-field')),
+        '0702468109',
+      );
+      await tester.pump();
+      await tester.tap(find.byKey(const ValueKey('auth-continue')));
+      await tester.pump();
+      await tester.ensureVisible(find.byIcon(Icons.backspace_outlined));
+      expect(tester.takeException(), isNull, reason: '$size PIN');
+    }
   });
 
   testWidgets('six-digit keypad is obscured, deletes, and submits once', (
@@ -111,13 +226,14 @@ void main() {
     );
     await tester.enterText(
       find.byKey(const ValueKey('auth-mobile-field')),
-      '0701234567',
+      '0702468109',
     );
     await tester.pump();
     await tester.tap(find.byKey(const ValueKey('auth-continue')));
     await tester.pump();
 
     for (final digit in const ['1', '2', '3', '4', '5']) {
+      await tester.ensureVisible(find.text(digit));
       await tester.tap(find.text(digit));
     }
     await tester.pump();
@@ -141,7 +257,7 @@ void main() {
       find.byKey(const ValueKey('auth-pin-keypad')),
     );
     expect(semantics.label, contains('Secure 6-digit PIN keypad'));
-    expect(semantics.value, isNot(contains('123456')));
+    expect(semantics.value, isNot(contains('246810')));
   });
 
   testWidgets('invalid credentials clear PIN and show non-enumerating error', (
@@ -162,12 +278,13 @@ void main() {
     );
     await tester.enterText(
       find.byKey(const ValueKey('auth-mobile-field')),
-      '0701234567',
+      '0702468109',
     );
     await tester.pump();
     await tester.tap(find.byKey(const ValueKey('auth-continue')));
     await tester.pump();
     for (final digit in const ['1', '2', '3', '4', '5', '6']) {
+      await tester.ensureVisible(find.text(digit));
       await tester.tap(find.text(digit));
     }
     await tester.pumpAndSettle();
@@ -179,6 +296,41 @@ void main() {
       tester.widget<IbaPinKeypad>(find.byType(IbaPinKeypad)).enteredDigits,
       0,
     );
+  });
+
+  testWidgets('completed PIN clears immediately while login is in flight', (
+    tester,
+  ) async {
+    final repository = WidgetRepository(session)
+      ..loginCompleter = Completer<AuthenticationSession>();
+    final controller = await controllerFor(repository);
+    await tester.pumpWidget(
+      testApp(
+        AuthenticationLoginPage(controller: controller),
+        wrapInScaffold: false,
+      ),
+    );
+    await tester.enterText(
+      find.byKey(const ValueKey('auth-mobile-field')),
+      '0702468109',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('auth-continue')));
+    await tester.pump();
+
+    for (final digit in const ['2', '4', '6', '8', '1', '0']) {
+      await tester.ensureVisible(find.text(digit));
+      await tester.tap(find.text(digit));
+    }
+    await tester.pump();
+
+    expect(repository.loginCalls, 1);
+    expect(
+      tester.widget<IbaPinKeypad>(find.byType(IbaPinKeypad)).enteredDigits,
+      0,
+    );
+    repository.loginCompleter!.complete(session);
+    await tester.pumpAndSettle();
   });
 
   testWidgets('Dari/Pashto RTL and 200 percent text remain usable', (
@@ -201,8 +353,53 @@ void main() {
         ),
         TextDirection.rtl,
       );
+      expect(
+        tester
+            .widget<TextField>(
+              find.descendant(
+                of: find.byKey(const ValueKey('auth-mobile-field')),
+                matching: find.byType(TextField),
+              ),
+            )
+            .textDirection,
+        TextDirection.ltr,
+      );
+      await tester.enterText(
+        find.byKey(const ValueKey('auth-mobile-field')),
+        '0702468109',
+      );
+      await tester.pump();
+      await tester.ensureVisible(find.byKey(const ValueKey('auth-continue')));
+      await tester.tap(find.byKey(const ValueKey('auth-continue')));
+      await tester.pump();
+      await tester.ensureVisible(find.byIcon(Icons.backspace_outlined));
+      expect(find.byType(IbaPinKeypad), findsOneWidget);
       expect(tester.takeException(), isNull);
     }
+  });
+
+  testWidgets('authenticated placeholder scrolls without narrow overflow', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(206, 401);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final controller = await controllerFor(WidgetRepository(session));
+    controller.continueToPin();
+    await controller.login(mobileNumber: '0702468109', pin: '246810');
+
+    await tester.pumpWidget(
+      testApp(
+        AuthenticatedPlaceholderPage(controller: controller),
+        wrapInScaffold: false,
+      ),
+    );
+    await tester.pump();
+
+    expect(tester.takeException(), isNull);
+    await tester.ensureVisible(find.text('Log out'));
+    expect(find.text('Log out'), findsOneWidget);
   });
 
   group('router guards and restoration', () {
@@ -315,6 +512,7 @@ final class WidgetRepository implements AuthenticationRepository {
 
   final AuthenticationSession session;
   Object? failure;
+  Completer<AuthenticationSession>? loginCompleter;
   int loginCalls = 0;
 
   @override
@@ -331,7 +529,7 @@ final class WidgetRepository implements AuthenticationRepository {
   }) async {
     loginCalls++;
     if (failure case final value?) throw value;
-    return session;
+    return loginCompleter?.future ?? session;
   }
 
   @override

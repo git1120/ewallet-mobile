@@ -224,7 +224,8 @@ final class AuthenticationController extends ChangeNotifier {
     final cancellation = CancelToken();
     _confirmationCancellation = cancellation;
     try {
-      return await _sessionManager.confirm() && _isCurrent(operation);
+      return await _sessionManager.confirm(cancelToken: cancellation) &&
+          _isCurrent(operation);
     } finally {
       if (identical(_confirmationCancellation, cancellation)) {
         _confirmationCancellation = null;
@@ -247,6 +248,7 @@ final class AuthenticationController extends ChangeNotifier {
       case 'USER_SUSPENDED':
       case 'USER_LOCKED':
       case 'USER_CLOSED':
+      case 'FORBIDDEN':
         await _handleTerminalFailure(failure);
         return;
       default:

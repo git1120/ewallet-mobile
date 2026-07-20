@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:iba_ewallet/core/theme/tokens.dart';
 import 'package:iba_ewallet/design_system/inputs/iba_fields.dart';
 
 import 'test_helpers.dart';
@@ -35,9 +36,35 @@ void main() {
     await tester.pumpWidget(
       testApp(IbaPhoneField(label: 'Phone', controller: controller)),
     );
-    await tester.enterText(find.byType(TextField), '+93 (701) 234-567999');
-    expect(controller.text, '937012345679');
+    await tester.enterText(find.byType(TextField), '+93 (702) 468-109999');
+    expect(controller.text, '937024681099');
   });
+
+  testWidgets(
+    'external phone label and country indicator keep one focus ring',
+    (tester) async {
+      await tester.pumpWidget(
+        testApp(
+          const IbaPhoneField(
+            label: 'Phone',
+            externalLabel: true,
+            countryIndicator: Icon(Icons.flag_outlined),
+          ),
+        ),
+      );
+
+      expect(find.text('Phone'), findsOneWidget);
+      expect(find.byIcon(Icons.flag_outlined), findsOneWidget);
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      expect(tester.testTextInput.hasAnyClients, isTrue);
+      final theme = Theme.of(tester.element(find.byType(TextField)));
+      final border =
+          theme.inputDecorationTheme.focusedBorder! as OutlineInputBorder;
+      expect(border.borderSide.color, IbaColors.green);
+      expect(border.borderSide.width, 2);
+    },
+  );
 
   testWidgets('amount field allows two decimal places', (tester) async {
     final controller = TextEditingController();
@@ -54,8 +81,8 @@ void main() {
       testApp(IbaPinField(label: 'PIN', controller: controller)),
     );
     expect(tester.widget<TextField>(find.byType(TextField)).obscureText, true);
-    await tester.enterText(find.byType(TextField), '12a34567');
-    expect(controller.text, '123456');
+    await tester.enterText(find.byType(TextField), '24a68109');
+    expect(controller.text, '246810');
   });
 
   testWidgets('OTP calls completion after all cells are entered', (

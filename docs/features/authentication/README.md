@@ -16,12 +16,26 @@ temporary behavior is accepted; this task accepted the recorded safe temporary
 behaviors. Product visual/language review remains open, so the composite
 reference is `in-progress`, not validated.
 
+The measured 20 July 2026 fidelity pass corrected the mobile/PIN composition,
+external mobile label and country indicator, focus treatment, supported action
+placement, six-indicator rhythm, keypad geometry/dial labels, compact loading,
+responsive scrolling, and mobile-to-PIN scroll restoration. Clean EN/LTR and
+FA/RTL 412×915 screenshots are recorded under the governed artifact path.
+Final visual acceptance remains blocked by the missing approved brand asset and
+pending product/design approval of contract-driven omitted actions, exact
+country-prefix presentation, and privacy masking.
+
 Chrome development uses the Flutter 3.38 root development-server proxy.
 Browser requests remain same-origin at `/api/v1/...`; only `/api/` is forwarded
 to the deployed development backend. Android continues to use the direct
 development URL. This local transport arrangement does not approve production
 browser authentication or change the token-storage limitations in the security
 contract.
+
+An independent authorized Chrome validation on 20 July 2026 completed login,
+device-session confirmation, browser-refresh restoration, one refresh
+rotation, logout, and post-logout non-restoration. Details and limitations are
+recorded in the test plan; no credential or token value was retained.
 
 ## Authority
 
@@ -66,13 +80,16 @@ in the response, a dedicated customer `/me` profile endpoint, remaining PIN
 attempts, lock expiry/countdown, a recovery/forgot-PIN contract, OTP login, or
 server biometric login.
 
-Two Flutter integration mismatches must be fixed during implementation:
+The original Flutter integration mismatches are now closed:
 
-- backend errors use `error.code` and `meta.traceId`, while the current
-  `FailureInterceptor` looks for top-level `code` and `requestId`;
-- the current authorization interceptor reads the access token from secure
-  storage on every request, while the approved security plan keeps the access
-  token in memory and persists the rotating refresh token.
+- failures read nested `error.code`, `meta.traceId`, and `X-Trace-Id`;
+- access tokens remain in memory while rotating refresh/session material uses
+  named secure-storage keys.
+
+The 20 July 2026 independent review also corrected generic backend `FORBIDDEN`
+mapping, threaded cancellation into device-session confirmation, shortened the
+completed-PIN lifetime in widget state, and removed the authorized PIN sequence
+from textual test fixtures.
 
 See [contract gaps](contract-gaps.md) for ownership and blocking decisions.
 

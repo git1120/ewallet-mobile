@@ -102,6 +102,18 @@ abstract final class IbaTheme {
           borderRadius: BorderRadius.circular(IbaRadii.md),
           borderSide: const BorderSide(color: IbaColors.outline),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(IbaRadii.md),
+          borderSide: const BorderSide(color: IbaColors.green, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(IbaRadii.md),
+          borderSide: const BorderSide(color: IbaColors.error),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(IbaRadii.md),
+          borderSide: const BorderSide(color: IbaColors.error, width: 2),
+        ),
       ),
       cardTheme: CardThemeData(
         color: IbaColors.surface,

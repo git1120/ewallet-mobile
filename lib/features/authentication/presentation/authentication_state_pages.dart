@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:iba_ewallet/app/localization/generated/app_localizations.dart';
 import 'package:iba_ewallet/core/theme/tokens.dart';
@@ -106,31 +108,41 @@ class AuthenticatedPlaceholderPage extends StatelessWidget {
     final loggingOut = controller.state.session == SessionStatus.loggingOut;
     return IbaPageScaffold(
       title: l10n.appName,
-      body: Padding(
-        padding: const EdgeInsetsDirectional.all(IbaSpacing.lg),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.verified_user_outlined,
-              size: 72,
-              color: IbaColors.green,
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          padding: const EdgeInsetsDirectional.all(IbaSpacing.lg),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: max(0, constraints.maxHeight - (IbaSpacing.lg * 2)),
             ),
-            const SizedBox(height: IbaSpacing.lg),
-            Text(
-              l10n.authSessionActiveTitle,
-              style: Theme.of(context).textTheme.headlineLarge,
-              textAlign: TextAlign.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.verified_user_outlined,
+                  size: 72,
+                  color: IbaColors.green,
+                ),
+                const SizedBox(height: IbaSpacing.lg),
+                Text(
+                  l10n.authSessionActiveTitle,
+                  style: Theme.of(context).textTheme.headlineLarge,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: IbaSpacing.sm),
+                Text(
+                  l10n.authSessionActiveMessage,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: IbaSpacing.xl),
+                IbaButton(
+                  label: loggingOut ? l10n.authLoggingOut : l10n.authLogout,
+                  loading: loggingOut,
+                  onPressed: loggingOut ? null : controller.logout,
+                ),
+              ],
             ),
-            const SizedBox(height: IbaSpacing.sm),
-            Text(l10n.authSessionActiveMessage, textAlign: TextAlign.center),
-            const SizedBox(height: IbaSpacing.xl),
-            IbaButton(
-              label: loggingOut ? l10n.authLoggingOut : l10n.authLogout,
-              loading: loggingOut,
-              onPressed: loggingOut ? null : controller.logout,
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:iba_ewallet/app/session/access_token_store.dart';
 import 'package:iba_ewallet/app/session/refresh_coordinator.dart';
 import 'package:iba_ewallet/core/error/app_failure.dart';
@@ -80,9 +81,13 @@ final class AuthenticationSessionManager {
     return operationGeneration == _generation ? session.accessToken : null;
   });
 
-  Future<bool> confirm() async {
+  Future<bool> confirm({CancelToken? cancelToken}) async {
     final id = _sessionId;
-    return id != null && await _repository.confirmSession(sessionId: id);
+    return id != null &&
+        await _repository.confirmSession(
+          sessionId: id,
+          cancelToken: cancelToken,
+        );
   }
 
   void invalidate() => _generation++;

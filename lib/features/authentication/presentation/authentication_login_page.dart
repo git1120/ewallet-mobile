@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:iba_ewallet/app/localization/generated/app_localizations.dart';
 import 'package:iba_ewallet/core/theme/tokens.dart';
@@ -19,6 +22,7 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
     with WidgetsBindingObserver {
   final _mobileController = TextEditingController();
   final _mobileFocus = FocusNode();
+  final _scrollController = ScrollController();
   String? _mobileError;
   String _pin = '';
 
@@ -40,6 +44,7 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
     _pin = '';
     _mobileController.dispose();
     _mobileFocus.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -59,6 +64,7 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
     setState(() => _mobileError = null);
     FocusScope.of(context).unfocus();
     widget.controller.continueToPin();
+    _resetScrollPosition();
   }
 
   void _addDigit(String digit) {
@@ -66,13 +72,13 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
     setState(() => _pin += digit);
     if (_pin.length == 6) {
       final submittedPin = _pin;
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await widget.controller.login(
+      unawaited(
+        widget.controller.login(
           mobileNumber: _mobileController.text,
           pin: submittedPin,
-        );
-        if (mounted) _clearPin();
-      });
+        ),
+      );
+      _clearPin();
     }
   }
 
@@ -89,6 +95,15 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
   void _changeMobile() {
     _clearPin();
     widget.controller.changeMobile();
+    _resetScrollPosition();
+  }
+
+  void _resetScrollPosition() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _scrollController.hasClients) {
+        _scrollController.jumpTo(0);
+      }
+    });
   }
 
   @override
@@ -101,14 +116,8 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 412),
-              child: SingleChildScrollView(
-                padding: const EdgeInsetsDirectional.fromSTEB(
-                  IbaSpacing.lg,
-                  IbaSpacing.md,
-                  IbaSpacing.lg,
-                  IbaSpacing.lg,
-                ),
-                child: state.loginStage == LoginStage.mobileEntry
+              child: _measuredScrollView(
+                state.loginStage == LoginStage.mobileEntry
                     ? _mobileEntry(state)
                     : state.loginStage == LoginStage.temporarilyLocked
                     ? _lockedState()
@@ -121,6 +130,19 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
     },
   );
 
+  Widget _measuredScrollView(Widget child) => LayoutBuilder(
+    builder: (context, constraints) => SingleChildScrollView(
+      controller: _scrollController,
+      padding: const EdgeInsetsDirectional.all(IbaSpacing.md),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: max(0, constraints.maxHeight - (IbaSpacing.md * 2)),
+        ),
+        child: IntrinsicHeight(child: child),
+      ),
+    ),
+  );
+
   Widget _mobileEntry(AuthenticationState state) {
     final l10n = AppLocalizations.of(context)!;
     final valid = RegExp(r'^\d{10}$').hasMatch(_mobileController.text);
@@ -129,8 +151,13 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
       label: l10n.authLoginScreenSemanticLabel,
       child: Column(
         children: [
-          const SizedBox(height: IbaSpacing.xl),
-          const _SecurityMark(icon: Icons.account_balance_outlined),
+          const SizedBox(height: 128),
+          const _SecurityMark(
+            icon: Icons.verified_user_outlined,
+            size: 88,
+            color: IbaColors.gold,
+            backgroundColor: IbaColors.surface,
+          ),
           const SizedBox(height: IbaSpacing.lg),
           Text(
             l10n.authLoginScreenTitle,
@@ -143,7 +170,7 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: IbaSpacing.xl),
+          const SizedBox(height: 40),
           IbaPhoneField(
             key: const ValueKey('auth-mobile-field'),
             label: l10n.authMobileLabel,
@@ -152,22 +179,29 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
             errorText: _mobileError,
             maxDigits: 10,
             textInputAction: TextInputAction.done,
+            externalLabel: true,
+            countryIndicator: const Icon(
+              Icons.flag_outlined,
+              color: IbaColors.green,
+              size: 20,
+            ),
             onSubmitted: (_) => _advanceToPin(),
             onChanged: (_) => setState(() {
               if (_mobileError != null) _mobileError = null;
             }),
           ),
-          const SizedBox(height: IbaSpacing.lg),
+          const SizedBox(height: IbaSpacing.xl),
           IbaButton(
             key: const ValueKey('auth-continue'),
             label: l10n.authContinue,
             onPressed: valid ? _advanceToPin : null,
           ),
-          const SizedBox(height: IbaSpacing.xxl),
+          const Spacer(),
           IbaAlertBanner(
             message: l10n.authPrivacyPinMessage,
-            status: IbaStatus.information,
+            status: IbaStatus.security,
           ),
+          const SizedBox(height: IbaSpacing.xxl),
         ],
       ),
     );
@@ -187,16 +221,17 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
       label: l10n.authPinScreenTitle,
       child: Column(
         children: [
+          const SizedBox(height: 40),
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: IbaIconButton(
-              icon: Icons.arrow_back,
+              icon: _backIcon,
               semanticLabel: l10n.authChangeMobile,
               onPressed: state.isSubmitting ? null : _changeMobile,
             ),
           ),
-          const _SecurityMark(icon: Icons.shield_outlined),
-          const SizedBox(height: IbaSpacing.md),
+          const _SecurityMark(icon: Icons.shield_outlined, size: 56),
+          const SizedBox(height: IbaSpacing.xl),
           Text(
             l10n.authPinScreenTitle,
             style: Theme.of(context).textTheme.headlineLarge,
@@ -218,25 +253,42 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
             const SizedBox(height: IbaSpacing.md),
             IbaAlertBanner(message: errorMessage, status: IbaStatus.error),
           ],
+          const SizedBox(height: 44),
+          IbaPinIndicators(enteredDigits: _pin.length),
           const SizedBox(height: IbaSpacing.lg),
+          Row(
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: IbaTextButton(
+                    label: l10n.authChangeMobile,
+                    onPressed: state.isSubmitting ? null : _changeMobile,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: state.isSubmitting
+                      ? IbaLoadingState(label: l10n.authSigningIn, inline: true)
+                      : const SizedBox.shrink(),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 40),
           IbaPinKeypad(
             key: const ValueKey('auth-pin-keypad'),
             semanticLabel: l10n.authPinFieldLabel,
             deleteSemanticLabel: l10n.authDeletePinDigit,
             enteredDigits: _pin.length,
             enabled: !state.isSubmitting,
+            showIndicators: false,
+            showDialLetters: true,
             onDigit: _addDigit,
             onDelete: _deleteDigit,
           ),
-          const SizedBox(height: IbaSpacing.sm),
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: IbaTextButton(
-              label: l10n.authChangeMobile,
-              onPressed: state.isSubmitting ? null : _changeMobile,
-            ),
-          ),
-          if (state.isSubmitting) IbaLoadingState(label: l10n.authSigningIn),
         ],
       ),
     );
@@ -273,27 +325,39 @@ class _AuthenticationLoginPageState extends State<AuthenticationLoginPage>
 
   String get _maskedMobile {
     final value = _mobileController.text;
-    if (value.length < 4) return '••••';
-    return '••• ••• ${value.substring(value.length - 4)}';
+    if (value.length < 4) return '+93 ••••';
+    return '+93 •• ••• ${value.substring(value.length - 4)}';
   }
+
+  IconData get _backIcon => Directionality.of(context) == TextDirection.rtl
+      ? Icons.arrow_forward
+      : Icons.arrow_back;
 }
 
 class _SecurityMark extends StatelessWidget {
-  const _SecurityMark({required this.icon, this.color = IbaColors.green});
+  const _SecurityMark({
+    required this.icon,
+    this.color = IbaColors.green,
+    this.backgroundColor = IbaColors.greenSoft,
+    this.size = 72,
+  });
 
   final IconData icon;
   final Color color;
+  final Color backgroundColor;
+  final double size;
 
   @override
   Widget build(BuildContext context) => ExcludeSemantics(
     child: Container(
-      width: 72,
-      height: 72,
-      decoration: const BoxDecoration(
-        color: IbaColors.greenSoft,
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: backgroundColor,
         shape: BoxShape.circle,
+        border: Border.all(color: IbaColors.outline),
       ),
-      child: Icon(icon, color: color, size: IbaSpacing.xl),
+      child: Icon(icon, color: color, size: size * 0.44),
     ),
   );
 }

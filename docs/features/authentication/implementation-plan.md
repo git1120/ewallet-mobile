@@ -69,9 +69,12 @@ events collapse to one cleanup/navigation event.
 **Exit:** every implemented region has an exact reference/viewport and no
 unapproved deviation; language review complete; widget/visual review passes.
 
-**Status:** safe regions implemented. Composite status remains `in-progress`
-pending matching-viewport review, brand-asset mapping, deviation approval, and
-linguistic review.
+**Status:** safe regions implemented and measured at 412×915. The mobile/PIN
+geometry, shared field/keypad variants, supported actions, loading/error
+stability, RTL, 200% reflow, and four clean EN/FA screenshots passed this
+implementation review. Composite status remains `in-progress`; the final visual
+decision is `Blocked by missing approved asset`, with deviation and linguistic
+approval still external.
 
 ## Phase E — Validation
 
@@ -90,8 +93,14 @@ is honest; EN/FA/PS, RTL, 200%, keyboard, accessibility, and session failure
 evidence is recorded; status register updated.
 
 **Status:** the original direct Chrome smoke reached the deployed API CORS
-boundary. The repository now resolves web development to same-origin
-`/api/v1/...` requests and delegates that prefix to Flutter 3.38.3's root
-development proxy; Android remains direct and secure production validation is
-unchanged. Live proxy/Chrome evidence is recorded in the test plan. No
-production-web readiness is claimed.
+boundary. The same-origin `/api/v1/...` development proxy subsequently passed
+authorized login, device-session confirmation, and logout transport checks.
+Android remains direct and secure production validation is unchanged. Live
+proxy/Chrome evidence and its remaining limitations are recorded in the test
+plan. No production-web readiness is claimed.
+
+The 20 July fidelity validation also launched Chrome through the development
+proxy and completed hot reload in 152 ms without runtime exceptions or another
+authorized login. The installed Pixel 2/API 28 emulator did not attach through
+ADB; Flutter doctor reports missing Android command-line tools and unknown
+license status, so Android TalkBack remains unclaimed.

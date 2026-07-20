@@ -21,6 +21,8 @@ class IbaTextField extends StatelessWidget {
     this.textDirection,
     this.focusNode,
     this.semanticLabel,
+    this.externalLabel = false,
+    this.prefixIcon,
     super.key,
   });
 
@@ -41,6 +43,30 @@ class IbaTextField extends StatelessWidget {
   final TextDirection? textDirection;
   final FocusNode? focusNode;
   final String? semanticLabel;
+  final bool externalLabel;
+  final Widget? prefixIcon;
+
+  Widget _field() => TextField(
+    controller: controller,
+    focusNode: focusNode,
+    readOnly: readOnly,
+    enabled: enabled,
+    obscureText: obscureText,
+    keyboardType: keyboardType,
+    inputFormatters: inputFormatters,
+    maxLength: maxLength,
+    onChanged: onChanged,
+    onSubmitted: onSubmitted,
+    textInputAction: textInputAction,
+    textDirection: textDirection,
+    decoration: InputDecoration(
+      labelText: externalLabel ? null : label,
+      hintText: hint,
+      errorText: errorText,
+      helperText: helperText,
+      prefixIcon: prefixIcon,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) => Semantics(
@@ -48,26 +74,16 @@ class IbaTextField extends StatelessWidget {
     label: semanticLabel ?? label,
     readOnly: readOnly,
     enabled: enabled,
-    child: TextField(
-      controller: controller,
-      focusNode: focusNode,
-      readOnly: readOnly,
-      enabled: enabled,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      inputFormatters: inputFormatters,
-      maxLength: maxLength,
-      onChanged: onChanged,
-      onSubmitted: onSubmitted,
-      textInputAction: textInputAction,
-      textDirection: textDirection,
-      decoration: InputDecoration(
-        labelText: label,
-        hintText: hint,
-        errorText: errorText,
-        helperText: helperText,
-      ),
-    ),
+    child: externalLabel
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(label, style: Theme.of(context).textTheme.labelLarge),
+              const SizedBox(height: IbaSpacing.xs),
+              _field(),
+            ],
+          )
+        : _field(),
   );
 }
 
@@ -82,6 +98,8 @@ class IbaPhoneField extends StatelessWidget {
     this.textInputAction,
     this.focusNode,
     this.maxDigits = 12,
+    this.externalLabel = false,
+    this.countryIndicator,
     super.key,
   });
 
@@ -94,6 +112,8 @@ class IbaPhoneField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final FocusNode? focusNode;
   final int maxDigits;
+  final bool externalLabel;
+  final Widget? countryIndicator;
 
   @override
   Widget build(BuildContext context) => IbaTextField(
@@ -108,6 +128,32 @@ class IbaPhoneField extends StatelessWidget {
     textInputAction: textInputAction,
     textDirection: TextDirection.ltr,
     focusNode: focusNode,
+    externalLabel: externalLabel,
+    prefixIcon: countryIndicator == null
+        ? null
+        : ExcludeSemantics(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.only(
+                start: IbaSpacing.md,
+                end: IbaSpacing.sm,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  countryIndicator!,
+                  const SizedBox(width: IbaSpacing.sm),
+                  const SizedBox(
+                    height: IbaSpacing.lg,
+                    child: VerticalDivider(
+                      width: 1,
+                      thickness: 1,
+                      color: IbaColors.outline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
   );
 }
 

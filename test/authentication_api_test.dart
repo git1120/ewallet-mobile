@@ -49,12 +49,12 @@ void main() {
 
   test('login uses exact path/body/headers without authorization', () async {
     await api.login(
-      const LoginRequestDto(mobileNumber: '0700000000', pin: '123456'),
+      const LoginRequestDto(mobileNumber: '0700000000', pin: '246810'),
     );
     final request = adapter.requests.single;
     expect(request.method, 'POST');
     expect(request.path, '/api/v1/auth/login');
-    expect(request.data, {'mobileNumber': '0700000000', 'pin': '123456'});
+    expect(request.data, {'mobileNumber': '0700000000', 'pin': '246810'});
     expect(request.headers['Accept'], 'application/json');
     expect(request.headers['content-type'], contains('application/json'));
     expect(request.headers['Authorization'], isNull);
@@ -111,7 +111,7 @@ void main() {
       );
       try {
         await api.login(
-          const LoginRequestDto(mobileNumber: '0700000000', pin: '123456'),
+          const LoginRequestDto(mobileNumber: '0700000000', pin: '246810'),
         );
         fail('Expected DioException');
       } on DioException catch (error) {
